@@ -1,0 +1,13 @@
+:root {
+  /* цвета */
+  --color-ground: #000;
+  --color-fill: #FFF;
+  --color-line: #545454;
+/*
+  --color-back: #E5E5E5;
+  --color-head: #AAA; */
+}
+
+.red-border {
+  border: 1px red solid;
+}
