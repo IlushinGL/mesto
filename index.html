@@ -23,13 +23,9 @@
       <img class="profile__avatar"
             src="./images/author.png" alt="автор">
       <div class="profile__info">
-        <h1 class="profile__title">
-          Л.И. Брежнев
-        </h1>
+        <h1 id="pgAuth" class="profile__title">Л.И. Брежнев</h1>
 
-        <h2 class="profile__subtitle">
-          ГенСек КомПартии СССР 19(66-82)гг. Эпоха Застоя
-        </h2>
+        <h2 id="pgInfo" class="profile__subtitle">ГенСек КомПартии СССР 19(66-82)гг. Эпоха Застоя</h2>
         <div class="profile__edit-button"></div>
       </div>
       <a class="profile__add-button" href="#"></a>
@@ -79,13 +75,24 @@
     </footer>
   </main>
 
-  <div class="popup">
+  <form class="popup">
     <div class="popup__conteiner">
       <div class="popup__close"></div>
-      <div class="popup__title">aaa</div>
-
+      <h2 class="popup__title">Редактировать профиль</h2>
+      <input id="popAuth"
+             type="text"
+             placeholder="автор"
+             class="popup__input-text">
+      <input id="popInfo"
+             type="text"
+             placeholder="описание"
+             class="popup__input-text">
+      <button  type="submit"
+               class="popup__submit-btn">
+        Сохранить
+      </button>
     </div>
-  </div>
+  </form>
 
   <script src="script.js"></script>
 
