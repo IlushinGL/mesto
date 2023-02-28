@@ -1,0 +1,22 @@
+.footer {
+  margin: 67px auto 0;
+  padding: 0;
+  width: 100%;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 122%;
+  text-align: left;
+  color: var(--color-line);
+}
+
+.footer::before {
+  content: '\00A9';
+}
+
+@media (max-width: 580px) {
+  .footer {
+    width: calc(100% - 38px);
+    margin: 48px 19px 0;
+    font-size: 14px;
+  }
+}
