@@ -6,6 +6,7 @@
   height: 50px;
   opacity: 1;
   border: 2px solid var(--color-fill);
+  border-radius: 2px;
   background-size: 22px 22px;
   background-position: center;
   background-repeat: no-repeat;

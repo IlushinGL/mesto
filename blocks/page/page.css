@@ -1,5 +1,6 @@
 .page {
-  padding: 0;
+  position: relative;
+  /* padding: 0; */
   /* ограничения по ширине */
   min-width: 320px;
   /* предпочтения по шрифтам */

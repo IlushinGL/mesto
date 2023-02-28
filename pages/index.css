@@ -19,3 +19,8 @@
 @import url(../blocks/elements/__element-caption/elements__element-caption.css);
 @import url(../blocks/elements/__element-favour/elements__element-favour.css);
 @import url(../blocks/footer/footer.css);
+@import url(../blocks/popup/popup.css);
+@import url(../blocks/popup/_opened/popup_opened.css);
+@import url(../blocks/popup/__conteiner/popup__container.css);
+@import url(../blocks/popup/__close/popup__close.css);
+@import url(../blocks/popup/__title/popup__title.css);
