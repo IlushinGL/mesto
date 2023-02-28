@@ -1,0 +1,27 @@
+.elements__element-favour {
+  position: absolute;
+  margin: 0;
+  padding: 0;
+  width: 22px;
+  height: 19px;
+  right: 20px;
+  bottom: 30px;
+  opacity: 1;
+
+  background-image: url(../../../images/heart_no.svg);
+  background-size: cover;
+
+
+}
+
+.elements__element-favour:hover {
+  transition: opacity 0.5s linear;
+  cursor: pointer;
+  opacity: 0.5;
+}
+
+.elements__element-favour:active {
+  cursor: pointer;
+  background-image: url(../../../images/heart_yes.svg);
+  opacity: 1;
+}

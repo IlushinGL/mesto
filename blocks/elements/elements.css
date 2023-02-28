@@ -8,3 +8,19 @@
   padding: 0;
   margin: 0;
 }
+
+@media (max-width: 879px) {
+  .elements {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 580px) {
+  .elements {
+    width: calc(100% - 38px);
+    margin-left: 19px;
+    grid-template-columns: repeat(1, 1fr);
+    grid-template-rows: repeat(6, 1fr);
+  }
+}

@@ -1,0 +1,8 @@
+.elements__element-img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1/1;
+  object-position: center;
+  object-fit: cover;
+  border-radius: var(--r-element) var(--r-element) 0 0;
+}
