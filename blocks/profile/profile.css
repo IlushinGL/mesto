@@ -1,19 +1,36 @@
 .profile {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
+  display: grid;
+  width: 100%;
   margin: 40px auto 51px;
   padding: 0;
-  width: 100%;
-  /* align-items: center; */
+
+  grid-template-columns: 150px 336px auto ;
+  grid-template-rows: 120px;
+  grid-template-areas:
+    "avatar info addbtm";
+  gap: 0;
+}
+
+@media (max-width: 879px) {
+  .profile {
+    grid-template-columns: 150px auto;
+    grid-template-rows: 120px 86px;
+    grid-template-areas:
+      "avatar info"
+      "addbtm addbtm";
+  }
 }
 
 @media (max-width: 580px) {
   .profile {
-    flex-direction: column;
-    align-items: center;
-    flex-wrap: nowrap;
     width: calc(100% - 38px);
-    margin: 42px 19px 36px;
+    margin: 42px auto 36px;
+
+    grid-template-columns: 100%;
+    grid-template-rows: 120px 116px 50px;
+    grid-template-areas:
+      "avatar"
+      "info"
+      "addbtm";
   }
 }
