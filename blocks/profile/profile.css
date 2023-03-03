@@ -4,7 +4,7 @@
   margin: 40px auto 51px;
   padding: 0;
 
-  grid-template-columns: 150px 336px auto ;
+  grid-template-columns: 150px 336px auto;
   grid-template-rows: 120px;
   grid-template-areas:
     "avatar info addbtm";
