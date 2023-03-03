@@ -14,12 +14,12 @@
   background-repeat: no-repeat;
   background-image: url(../../../images/pen.svg);
 
+  cursor: pointer;
   opacity: 1;
   transition: opacity 0.5s linear;
 }
 
 .profile__edit-button:hover {
-  cursor: pointer;
   opacity: 0.6;
 }
 

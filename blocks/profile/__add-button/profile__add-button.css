@@ -13,12 +13,12 @@
   background-repeat: no-repeat;
   background-image: url(../../../images/plus.png);
 
+  cursor: pointer;
   opacity: 1;
   transition: opacity 0.5s linear;
 }
 
 .profile__add-button:hover {
-  cursor: pointer;
   opacity: 0.6;
 }
 

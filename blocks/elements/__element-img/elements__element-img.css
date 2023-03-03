@@ -1,6 +1,8 @@
 .elements__element-img {
-  display: block;
+  grid-area: img;
   width: 100%;
+  margin: 0;
+  padding: 0;
   aspect-ratio: 1/1;
   object-position: center;
   object-fit: cover;
