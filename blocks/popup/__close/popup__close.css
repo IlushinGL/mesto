@@ -8,6 +8,8 @@
   right: -40px;
   opacity: 1;
 
+  border: none;
+  background-color: transparent;
   background-image: url(../../../images/close.svg);
   background-size: cover;
   transition: opacity 0.5s linear;

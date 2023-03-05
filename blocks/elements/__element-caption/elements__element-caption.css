@@ -6,8 +6,8 @@
 
   display: grid;
   grid-template-columns: 219px 27px;
-  grid-template-rows: 23px;
+  grid-template-rows: auto;
   grid-template-areas:
-    "txt icofvr";
+    'txt icofvr';
   gap: 0;
 }

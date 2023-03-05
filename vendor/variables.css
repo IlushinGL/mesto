@@ -2,7 +2,8 @@
   /* цвета */
   --color-ground: #000;
   --color-fill: #FFF;
-  --color-line: #545454;
+  --color-line: rgb(84 84 84 / 70%);
+  --color-footer: #545454;
   /* углы */
   --r-element: 10px;
 /*

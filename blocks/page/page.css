@@ -1,6 +1,6 @@
 .page {
-  position: relative;
-  /* padding: 0; */
+  display: flex;
+  flex-direction: column;
   /* ограничения по ширине */
   min-width: 320px;
   /* предпочтения по шрифтам */

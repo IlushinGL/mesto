@@ -4,20 +4,21 @@
   margin: 40px auto 51px;
   padding: 0;
 
-  grid-template-columns: 150px 336px auto;
-  grid-template-rows: 120px;
+  grid-template-columns: 120px repeat(2, auto);
   grid-template-areas:
-    "avatar info addbtm";
-  gap: 0;
+    'avatar info addbtm';
+  column-gap: 30px;
+  row-gap: 0;
 }
 
 @media (max-width: 879px) {
   .profile {
-    grid-template-columns: 150px auto;
-    grid-template-rows: 120px 86px;
+    margin: 18px auto 51px;
+    grid-template-columns: 120px auto;
+    grid-template-rows: repeat(2, auto);
     grid-template-areas:
-      "avatar info"
-      "addbtm addbtm";
+      'avatar info'
+      'avatar addbtm';
   }
 }
 
@@ -26,11 +27,11 @@
     width: calc(100% - 38px);
     margin: 42px auto 36px;
 
-    grid-template-columns: 100%;
-    grid-template-rows: 120px 116px 50px;
+    grid-template-columns: auto;
+    grid-template-rows: repeat(3, auto);
     grid-template-areas:
-      "avatar"
-      "info"
-      "addbtm";
+      'avatar'
+      'info'
+      'addbtm';
   }
 }

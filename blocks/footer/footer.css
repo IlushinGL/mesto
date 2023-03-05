@@ -1,22 +1,22 @@
 .footer {
-  margin: 67px auto 0;
+  display: flex;
+  margin: 67px auto var(--r-element);
+
+
   padding: 0;
-  width: 100%;
-  font-weight: 400;
-  font-size: 18px;
-  line-height: 122%;
-  text-align: left;
-  color: var(--color-line);
+  min-width: 880px;
+
 }
 
-.footer::before {
-  content: '\00A9';
+@media (max-width: 879px) {
+  .footer {
+    min-width: 581px;
+  }
 }
 
 @media (max-width: 580px) {
   .footer {
-    width: calc(100% - 38px);
-    margin: 48px 19px 0;
-    font-size: 14px;
+    min-width: 282px;
+    margin-top: 48px;
   }
 }

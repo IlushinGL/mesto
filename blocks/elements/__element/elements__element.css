@@ -7,10 +7,10 @@
 
   display: grid;
   grid-template-columns: 282px;
-  grid-template-rows: 282px 79px;
+  grid-template-rows: repeat(2, auto);
   grid-template-areas:
-    "img"
-    "cap";
+    'img'
+    'cap';
   gap: 0;
 
 }

@@ -1,15 +1,20 @@
 .profile__avatar {
   grid-area: avatar;
-  height: 100%;
-  max-width: calc(100% - 30px);
+  height: 120px;
+  width: 120px;
   border-radius: 50%;
   object-fit: cover;
   object-position: center;
 }
 
+@media (max-width: 879px) {
+  .profile__avatar {
+    align-self: center;
+  }
+}
+
 @media (max-width: 580px) {
   .profile__avatar {
-    max-width: 120px;
     justify-self: center;
   }
 }

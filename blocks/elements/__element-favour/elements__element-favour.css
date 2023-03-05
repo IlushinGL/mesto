@@ -1,9 +1,11 @@
 .elements__element-favour {
   grid-area: icofvr;
+  border: none;
   margin: 5px auto auto 0;
   padding: 0;
   width: 22px;
   height: 19px;
+  background-color: transparent;
   background-image: url(../../../images/heart_no.svg);
   background-size: cover;
 
@@ -13,10 +15,11 @@
 
 .elements__element-favour:hover {
   transition: opacity 0.5s linear;
-  opacity: 0.5;
+  opacity: .5;
 }
 
 .elements__element-favour:active {
   background-image: url(../../../images/heart_yes.svg);
+  cursor: none;
   opacity: 1;
 }

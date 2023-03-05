@@ -3,10 +3,9 @@
   display: block;
   box-sizing: border-box;
 
-  margin: 195px auto auto;
+  margin: auto;
   padding: 34px 36px 37px;
-  width: 430px;
-  height: 330px;
+  max-width: 430px;
   background-color: var(--color-fill);
   border-radius: var(--r-element);
   color: var(--color-ground);
@@ -14,9 +13,7 @@
 
 @media (max-width: 580px) {
   .popup__conteiner {
-    width: 282px;
-    height: 322px;
-    margin-top: 123px;
+    max-width: 282px;
     padding: 25px 22px;
   }
 }

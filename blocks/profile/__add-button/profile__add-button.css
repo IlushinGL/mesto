@@ -2,11 +2,13 @@
   grid-area: addbtm;
   box-sizing: border-box;
   padding: 0;
-  margin: auto 0 auto auto;
+  margin: auto;
+  margin-right: 0;
   width: 150px;
   height: 50px;
 
   border: 2px solid var(--color-fill);
+  background-color: transparent;
   border-radius: 2px;
   background-size: 22px 22px;
   background-position: center;
@@ -25,6 +27,12 @@
 @media (max-width: 879px) {
   .profile__add-button {
     width: 100%;
+    margin: auto;
+  }
+}
+
+@media (max-width: 580px) {
+  .profile__add-button {
     margin-bottom: 0;
   }
 }
