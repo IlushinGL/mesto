@@ -23,12 +23,11 @@
   opacity: .6;
 }
 
-@media (max-width: 580px) {
+@media (max-width: 618px) {
   .profile__edit-button {
     margin-top: 8px;
     width: 18px;
     height: 18px;
-    /* grid-column: edit; */
     background-size: 7.5px 7.5px;
   }
 }

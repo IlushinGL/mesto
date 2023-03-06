@@ -8,13 +8,13 @@
   justify-content: space-between;
 }
 
-@media (max-width: 879px) {
+@media (max-width: 917px) {
   .header {
     min-width: 581px;
   }
 }
 
-@media (max-width: 580px) {
+@media (max-width: 618px) {
   .header {
     min-width: 320px;
     margin-top: 28px;

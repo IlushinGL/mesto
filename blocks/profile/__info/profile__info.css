@@ -3,7 +3,6 @@
   width: 100%;
   margin: 22px auto auto 0;
   padding: 0;
-  /* justify-content: start; */
 
   display: grid;
   grid-template-columns: auto 1fr;
@@ -15,13 +14,13 @@
   column-gap: 18px;
 }
 
-@media (max-width: 879px) {
+@media (max-width: 917px) {
   .profile__info {
     margin-bottom: 16px;
   }
 }
 
-@media (max-width: 580px) {
+@media (max-width: 618px) {
   .profile__info {
     grid-template-columns: 1fr auto 1fr;
     grid-template-areas:

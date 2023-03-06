@@ -11,7 +11,7 @@
   row-gap: 0;
 }
 
-@media (max-width: 879px) {
+@media (max-width: 917px) {
   .profile {
     margin: 18px auto 51px;
     grid-template-columns: 120px auto;
@@ -22,10 +22,10 @@
   }
 }
 
-@media (max-width: 580px) {
+@media (max-width: 618px) {
   .profile {
-    width: calc(100% - 38px);
-    margin: 42px auto 36px;
+    width: auto;
+    margin: 42px 19px 36px;
 
     grid-template-columns: auto;
     grid-template-rows: repeat(3, auto);

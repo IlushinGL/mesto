@@ -8,9 +8,6 @@
   text-align: left;
   color: var(--color-footer);
 
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  overflow: hidden;
 }
 
 .footer__copyright::before {
@@ -18,7 +15,7 @@
 }
 
 
-@media (max-width: 580px) {
+@media (max-width: 618px) {
   .footer__copyright {
     font-size: 14px;
   }

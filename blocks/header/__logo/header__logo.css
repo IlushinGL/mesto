@@ -6,7 +6,7 @@
   content: url(../../../images/Logo.svg);
 }
 
-@media (max-width: 580px) {
+@media (max-width: 618px) {
   .header__logo {
     max-width: 104px;
     margin: 0 auto 32px 27px;

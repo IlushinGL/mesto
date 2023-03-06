@@ -7,13 +7,13 @@
   object-position: center;
 }
 
-@media (max-width: 879px) {
+@media (max-width: 917px) {
   .profile__avatar {
     align-self: center;
   }
 }
 
-@media (max-width: 580px) {
+@media (max-width: 618px) {
   .profile__avatar {
     justify-self: center;
   }

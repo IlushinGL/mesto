@@ -1,10 +1,13 @@
 let pgAuth = document.querySelector('#pgAuth');
 let pgInfo = document.querySelector('#pgInfo');
 let pageProfileEditButton = document.querySelector('.profile__edit-button');
+
 let popupProfile = document.querySelector('.popup');
 let popupProfileCloseButton = popupProfile.querySelector('.popup__close');
-let popAuth = popupProfile.querySelector('#popAuth');
-let popInfo = popupProfile.querySelector('#popInfo');
+
+let popupForm = popupProfile.querySelector('form');
+let popAuth = popupForm.querySelector('#popAuth');
+let popInfo = popupForm.querySelector('#popInfo');
 
 function pageProfileEditClick() {
   popupProfile.classList.add('popup_opened');
@@ -23,6 +26,6 @@ function handleFormSubmit (evt) {
   popupProfileCloseClick();
 }
 
-popupProfile.addEventListener('submit', handleFormSubmit);
+popupForm.addEventListener('submit', handleFormSubmit);
 pageProfileEditButton.addEventListener('click', pageProfileEditClick);
 popupProfileCloseButton.addEventListener('click', popupProfileCloseClick);

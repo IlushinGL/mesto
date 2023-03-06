@@ -1,22 +1,20 @@
 .footer {
-  display: flex;
-  margin: 67px auto var(--r-element);
-
+  flex-shrink: 0;
+  margin: 67px auto 60px;
 
   padding: 0;
   min-width: 880px;
-
 }
 
-@media (max-width: 879px) {
+@media (max-width: 917px) {
   .footer {
     min-width: 581px;
   }
 }
 
-@media (max-width: 580px) {
+@media (max-width: 618px) {
   .footer {
     min-width: 282px;
-    margin-top: 48px;
+    margin: 48px auto 36px;
   }
 }
