@@ -2,17 +2,17 @@
   padding: 0;
   flex: 1;
   margin: 0 auto;
-  max-width: 880px;
+  min-width: 880px;
 }
 
 @media (max-width: 917px) {
   .content {
-    max-width: 581px;
+    min-width: 581px;
   }
 }
 
 @media (max-width: 618px) {
   .content {
-    max-width: 320px;
+    min-width: 320px;
   }
 }
