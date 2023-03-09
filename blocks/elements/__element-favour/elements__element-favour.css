@@ -11,15 +11,15 @@
 
   opacity: 1;
   cursor: pointer;
+  transition: opacity .5s linear;
 }
 
 .elements__element-favour:hover {
-  transition: opacity 0.5s linear;
   opacity: .5;
 }
 
-.elements__element-favour:active {
+/* .elements__element-favour:active {
   background-image: url(../../../images/heart_yes.svg);
   cursor: none;
   opacity: 1;
-}
+} */

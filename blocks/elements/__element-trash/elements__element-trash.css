@@ -13,9 +13,9 @@
 
   opacity: 1;
   cursor: pointer;
+  transition: opacity .5s linear;
 }
 
 .elements__element-trash:hover {
-  transition: opacity 0.5s linear;
   opacity: .6;
 }

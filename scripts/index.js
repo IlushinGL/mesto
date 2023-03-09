@@ -1,4 +1,4 @@
-const initialCards = [
+const elementsInBox = [
   {
     name: 'Москва 1964. Смоленская площадь',
     link: '../images/el_1_ussr.jpg'
@@ -25,38 +25,116 @@ const initialCards = [
   }
 ];
 
-document.addEventListener('DOMContentLoaded', function () {
-  console.log(initialCards);
-})
+const popUpData = [
+  {
+    title: 'Редактировать профиль',
+    placeholderFieldA: 'Автор',
+    placeholderFieldB: 'Основная деятельность'
+  },
+  {
+    title: 'Новое место',
+    placeholderFieldA: 'Название',
+    placeholderFieldB: 'Ссылка на картинку'
+  }
+];
 
-let pgAuth = document.querySelector('#pgAuth');
-let pgInfo = document.querySelector('#pgInfo');
-let pageProfileEditButton = document.querySelector('.profile__edit-button');
+const elementTemplate = document.querySelector('#tmplElement').content;
+const elementsSection = document.querySelector('.elements');
 
-let popupProfile = document.querySelector('.popup');
-let popupProfileCloseButton = popupProfile.querySelector('.popup__close');
+const pageProfileEditButton = document.querySelector('.profile__edit-button');
+const pagePlaceAddtButton = document.querySelector('.profile__add-button');
+const pgAuth = document.querySelector('#pgAuth');
+const pgInfo = document.querySelector('#pgInfo');
 
-let popupForm = popupProfile.querySelector('form');
-let popAuth = popupForm.querySelector('#popAuth');
-let popInfo = popupForm.querySelector('#popInfo');
+const popupWindow = document.querySelector('.popup');
+const popupWindowCloseButton = popupWindow.querySelector('.popup__close');
 
-function pageProfileEditClick() {
-  popupProfile.classList.add('popup_opened');
-  popAuth.value = pgAuth.textContent;
-  popInfo.value = pgInfo.textContent;
+const popTitle = popupWindow.querySelector('.popup__title');
+const popupForm = popupWindow.querySelector('form');
+const popFieldA = popupForm.querySelector('#fieldA');
+const popFieldB = popupForm.querySelector('#fieldB');
+
+function putElementsFromBox() {
+  elementsInBox.forEach((item) => {
+    addPlace(item.name, item.link);
+  });
 }
 
-function popupProfileCloseClick() {
-  popupProfile.classList.remove('popup_opened');
+function adjustPopUpForm(id) {
+  if (id === 0) {
+    popupForm.id = 'popUpForm0';
+    popTitle.textContent = popUpData[0].title;
+    popFieldA.placeholder = popUpData[0].placeholderFieldA;
+    popFieldB.placeholder = popUpData[0].placeholderFieldB;
+  }
+  else {
+    popupForm.id = 'popUpForm1';
+    popTitle.textContent = popUpData[1].title;
+    popFieldA.placeholder = popUpData[1].placeholderFieldA;
+    popFieldB.placeholder = popUpData[1].placeholderFieldB;
+  }
 }
 
-function handleFormSubmit (evt) {
+function saveProfile(name, info) {
+  pgAuth.textContent = name;
+  pgInfo.textContent = info;
+}
+
+function addPlace(name, link, isStartPosition = false) {
+  const currentElement = elementTemplate.querySelector('.elements__element').cloneNode(true);
+  currentElement.querySelector('.elements__element-img').src = link;
+  currentElement.querySelector('.elements__element-img').alt = name;
+  currentElement.querySelector('.elements__element-text').textContent = name;
+
+  currentElement.querySelector('.elements__element-favour').addEventListener('click', clickLikeBtm);
+  currentElement.querySelector('.elements__element-trash').addEventListener('click', clickTrashBtm);
+
+  if (isStartPosition) {
+    elementsSection.prepend(currentElement);
+  } else {
+    elementsSection.append(currentElement);
+  }
+}
+
+function clickLikeBtm(evt) {
+  evt.target.classList.toggle('elements__element-favour_yes');
+}
+
+function clickTrashBtm(evt) {
+  evt.target.closest('.elements__element').remove();
+}
+
+function сlickPlaceAddBtm() {
+  popupWindow.classList.add('popup_opened');
+  adjustPopUpForm(1);
+  popFieldA.value = '';
+  popFieldB.value = '';
+}
+
+function сlickProfileEditBtm() {
+  popupWindow.classList.add('popup_opened');
+  adjustPopUpForm(0);
+  popFieldA.value = pgAuth.textContent;
+  popFieldB.value = pgInfo.textContent;
+}
+
+function clickPopUpCloseBtm() {
+  popupWindow.classList.remove('popup_opened');
+}
+
+function handleFormSubmit(evt) {
   evt.preventDefault();
-  pgAuth.textContent = popAuth.value;
-  pgInfo.textContent = popInfo.value;
-  popupProfileCloseClick();
+  if (popupForm.id.endsWith('0')) {
+    saveProfile(popFieldA.value, popFieldB.value);
+  }
+  else {
+    addPlace(popFieldA.value, popFieldB.value, true);
+  }
+  clickPopUpCloseBtm();
 }
 
+document.addEventListener('DOMContentLoaded', putElementsFromBox);
 popupForm.addEventListener('submit', handleFormSubmit);
-pageProfileEditButton.addEventListener('click', pageProfileEditClick);
-popupProfileCloseButton.addEventListener('click', popupProfileCloseClick);
+pageProfileEditButton.addEventListener('click', сlickProfileEditBtm);
+pagePlaceAddtButton.addEventListener('click', сlickPlaceAddBtm);
+popupWindowCloseButton.addEventListener('click', clickPopUpCloseBtm);
