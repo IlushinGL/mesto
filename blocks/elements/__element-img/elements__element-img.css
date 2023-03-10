@@ -7,4 +7,5 @@
   object-position: center;
   object-fit: cover;
   border-radius: var(--r-element) var(--r-element) 0 0;
+  cursor: pointer;
 }

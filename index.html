@@ -28,7 +28,7 @@
       <img class="profile__avatar"
             src="./images/author.png" alt="автор">
       <div class="profile__info">
-        <h1 id="pgAuth" class="profile__title">Л.И. Брежнев</h1>
+        <h1 id="pgAuthor" class="profile__title">Л.И. Брежнев</h1>
         <button type="button" class="profile__edit-button"></button>
         <p id="pgInfo" class="profile__subtitle">ГенСек КомПартии СССР 19(66-82)гг. Эпоха Застоя</p>
       </div>
@@ -45,22 +45,57 @@
     <p class="footer__copyright">Григорий Илюшин 2023</p>
   </footer>
 
-  <div class="popup">
+  <div id="popUpImg" class="popup">
+    <div class="popup__conteiner popup__conteiner_img">
+      <button type="button" class="popup__close"></button>
+      <img  src="./images/template.png" alt="шаблон элемента">
+      <h2 class="popup__title popup__title_img">Подпись изображения</h2>
+    </div>
+  </div>
+
+
+  <div id="popUpPlace"  class="popup">
     <div class="popup__conteiner">
       <button type="button" class="popup__close"></button>
-      <h2 class="popup__title">Заголовок</h2>
-      <form id="popUpForm" name="popUpForm">
+      <h2 class="popup__title">Новое место</h2>
+      <form id="placePopUpForm" name="placePopUpForm">
         <input
               id="fieldA"
               name="fieldA"
               type="text"
-              placeholder="Поле ввода данных"
+              placeholder="Название"
               class="popup__input-text">
         <input
               id="fieldB"
               name="fieldB"
               type="text"
-              placeholder="Поле ввода данных"
+              placeholder="Ссылка на картинку"
+              class="popup__input-text">
+        <button
+              type="submit"
+              class="popup__submit-btn">
+          Сохранить
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <div id="popUpUser"  class="popup">
+    <div class="popup__conteiner">
+      <button type="button" class="popup__close"></button>
+      <h2 class="popup__title">Редактировать профиль</h2>
+      <form id="userPopUpForm" name="userPopUpForm">
+        <input
+              id="fieldA"
+              name="fieldA"
+              type="text"
+              placeholder="Автор"
+              class="popup__input-text">
+        <input
+              id="fieldB"
+              name="fieldB"
+              type="text"
+              placeholder="Основная деятельность"
               class="popup__input-text">
         <button
               type="submit"

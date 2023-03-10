@@ -25,59 +25,25 @@ const elementsInBox = [
   }
 ];
 
-const popUpData = [
-  {
-    title: 'Редактировать профиль',
-    placeholderFieldA: 'Автор',
-    placeholderFieldB: 'Основная деятельность'
-  },
-  {
-    title: 'Новое место',
-    placeholderFieldA: 'Название',
-    placeholderFieldB: 'Ссылка на картинку'
-  }
-];
-
 const elementTemplate = document.querySelector('#tmplElement').content;
 const elementsSection = document.querySelector('.elements');
 
-const pageProfileEditButton = document.querySelector('.profile__edit-button');
-const pagePlaceAddtButton = document.querySelector('.profile__add-button');
-const pgAuth = document.querySelector('#pgAuth');
+const profileEditButton = document.querySelector('.profile__edit-button');
+const placeAddButton = document.querySelector('.profile__add-button');
+const pgAuthor = document.querySelector('#pgAuthor');
 const pgInfo = document.querySelector('#pgInfo');
 
-const popupWindow = document.querySelector('.popup');
-const popupWindowCloseButton = popupWindow.querySelector('.popup__close');
+let popFieldA;
+let popFieldB;
+let popCloseButton;
+let popWindow;
+let popForm;
 
-const popTitle = popupWindow.querySelector('.popup__title');
-const popupForm = popupWindow.querySelector('form');
-const popFieldA = popupForm.querySelector('#fieldA');
-const popFieldB = popupForm.querySelector('#fieldB');
 
 function putElementsFromBox() {
   elementsInBox.forEach((item) => {
     addPlace(item.name, item.link);
   });
-}
-
-function adjustPopUpForm(id) {
-  if (id === 0) {
-    popupForm.id = 'popUpForm0';
-    popTitle.textContent = popUpData[0].title;
-    popFieldA.placeholder = popUpData[0].placeholderFieldA;
-    popFieldB.placeholder = popUpData[0].placeholderFieldB;
-  }
-  else {
-    popupForm.id = 'popUpForm1';
-    popTitle.textContent = popUpData[1].title;
-    popFieldA.placeholder = popUpData[1].placeholderFieldA;
-    popFieldB.placeholder = popUpData[1].placeholderFieldB;
-  }
-}
-
-function saveProfile(name, info) {
-  pgAuth.textContent = name;
-  pgInfo.textContent = info;
 }
 
 function addPlace(name, link, isStartPosition = false) {
@@ -88,6 +54,7 @@ function addPlace(name, link, isStartPosition = false) {
 
   currentElement.querySelector('.elements__element-favour').addEventListener('click', clickLikeBtm);
   currentElement.querySelector('.elements__element-trash').addEventListener('click', clickTrashBtm);
+  currentElement.querySelector('.elements__element-img').addEventListener('click', сlickPicture);
 
   if (isStartPosition) {
     elementsSection.prepend(currentElement);
@@ -95,6 +62,39 @@ function addPlace(name, link, isStartPosition = false) {
     elementsSection.append(currentElement);
   }
 }
+
+function adjustPopUpForm(id) {
+  if (id === 0) {
+    popWindow = document.querySelector('#popUpUser');
+    popForm = popWindow.querySelector('form');
+    popFieldA = popForm.querySelector('#fieldA');
+    popFieldB = popForm.querySelector('#fieldB');
+    popCloseButton = popWindow.querySelector('.popup__close');
+    popForm.addEventListener('submit', handleFormSubmit);
+    popCloseButton.addEventListener('click', clickPopUpCloseBtm);
+  }
+  else if (id === 1) {
+    popWindow = document.querySelector('#popUpPlace');
+    popForm = popWindow.querySelector('form');
+    popFieldA = popForm.querySelector('#fieldA');
+    popFieldB = popForm.querySelector('#fieldB');
+    popCloseButton = popWindow.querySelector('.popup__close');
+    popForm.addEventListener('submit', handleFormSubmit);
+    popCloseButton.addEventListener('click', clickPopUpCloseBtm);
+  }
+  else {
+    popWindow = document.querySelector('#popUpImg');
+    popCloseButton = popWindow.querySelector('.popup__close');
+    popCloseButton.addEventListener('click', clickPopUpCloseBtm);
+  }
+}
+
+function saveProfile(name, info) {
+  pgAuthor.textContent = name;
+  pgInfo.textContent = info;
+}
+
+
 
 function clickLikeBtm(evt) {
   evt.target.classList.toggle('elements__element-favour_yes');
@@ -105,36 +105,43 @@ function clickTrashBtm(evt) {
 }
 
 function сlickPlaceAddBtm() {
-  popupWindow.classList.add('popup_opened');
   adjustPopUpForm(1);
+  popWindow.classList.add('popup_opened');
   popFieldA.value = '';
   popFieldB.value = '';
 }
 
+function сlickPicture(evt) {
+  adjustPopUpForm(2);
+  popWindow.classList.add('popup_opened');
+  const originElement = evt.target.parentElement;
+  popWindow.querySelector('.popup__title').textContent =
+    originElement.querySelector('.elements__element-text').textContent;
+    popWindow.querySelector('img').src = evt.target.src;
+}
+
 function сlickProfileEditBtm() {
-  popupWindow.classList.add('popup_opened');
   adjustPopUpForm(0);
-  popFieldA.value = pgAuth.textContent;
+  popWindow.classList.add('popup_opened');
+  popFieldA.value = pgAuthor.textContent;
   popFieldB.value = pgInfo.textContent;
 }
 
-function clickPopUpCloseBtm() {
-  popupWindow.classList.remove('popup_opened');
+function clickPopUpCloseBtm(evt) {
+  evt.target.closest('.popup').classList.remove('popup_opened');
 }
 
 function handleFormSubmit(evt) {
   evt.preventDefault();
-  if (popupForm.id.endsWith('0')) {
+  if (popWindow.id === 'popUpUser') {
     saveProfile(popFieldA.value, popFieldB.value);
   }
-  else {
+  else if (popWindow.id === 'popUpPlace') {
     addPlace(popFieldA.value, popFieldB.value, true);
   }
-  clickPopUpCloseBtm();
+  clickPopUpCloseBtm(evt);
 }
 
 document.addEventListener('DOMContentLoaded', putElementsFromBox);
-popupForm.addEventListener('submit', handleFormSubmit);
-pageProfileEditButton.addEventListener('click', сlickProfileEditBtm);
-pagePlaceAddtButton.addEventListener('click', сlickPlaceAddBtm);
-popupWindowCloseButton.addEventListener('click', clickPopUpCloseBtm);
+profileEditButton.addEventListener('click', сlickProfileEditBtm);
+placeAddButton.addEventListener('click', сlickPlaceAddBtm);
