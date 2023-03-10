@@ -67,8 +67,8 @@ function adjustPopUpForm(id) {
   if (id === 0) {
     popWindow = document.querySelector('#popUpUser');
     popForm = popWindow.querySelector('form');
-    popFieldA = popForm.querySelector('#fieldA');
-    popFieldB = popForm.querySelector('#fieldB');
+    popFieldA = popForm.querySelector('#fieldAuser');
+    popFieldB = popForm.querySelector('#fieldBuser');
     popCloseButton = popWindow.querySelector('.popup__close');
     popForm.addEventListener('submit', handleFormSubmit);
     popCloseButton.addEventListener('click', clickPopUpCloseBtm);
@@ -76,8 +76,8 @@ function adjustPopUpForm(id) {
   else if (id === 1) {
     popWindow = document.querySelector('#popUpPlace');
     popForm = popWindow.querySelector('form');
-    popFieldA = popForm.querySelector('#fieldA');
-    popFieldB = popForm.querySelector('#fieldB');
+    popFieldA = popForm.querySelector('#fieldAplace');
+    popFieldB = popForm.querySelector('#fieldBplace');
     popCloseButton = popWindow.querySelector('.popup__close');
     popForm.addEventListener('submit', handleFormSubmit);
     popCloseButton.addEventListener('click', clickPopUpCloseBtm);
