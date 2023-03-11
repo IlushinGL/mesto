@@ -7,6 +7,4 @@
   border-radius: 0;
   background-color: transparent;
   color: var(--color-fill);
-  object-fit: cover;
-  object-position: center;
 }

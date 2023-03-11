@@ -1,100 +1,50 @@
-const elementsInBox = [
-  {
-    name: 'Москва 1964. Смоленская площадь',
-    link: '../images/el_1_ussr.jpg'
-  },
-  {
-    name: 'Нью-Йорк. Вид изнутри',
-    link: '../images/el_2_usa.jpg'
-  },
-  {
-    name: 'Париж. Башня Эйфеля',
-    link: '../images/el_3_france.jpg'
-  },
-  {
-    name: 'Где-то в горах',
-    link: '../images/el_4_mountains.jpg'
-  },
-  {
-    name: 'Сидней',
-    link: '../images/el_5_australia.jpg'
-  },
-  {
-    name: 'Флоренция',
-    link: '../images/el_6_italy.jpg'
-  }
-];
-
-const elementTemplate = document.querySelector('#tmplElement').content;
+const elementTemplate = document.querySelector('#template-element').content;
 const elementsSection = document.querySelector('.elements');
 
 const profileEditButton = document.querySelector('.profile__edit-button');
 const placeAddButton = document.querySelector('.profile__add-button');
-const pgAuthor = document.querySelector('#pgAuthor');
-const pgInfo = document.querySelector('#pgInfo');
+const profileTextAuthor = document.querySelector('#profile-text-author');
+const profileTextJob = document.querySelector('#profile-text-job');
 
-let popFieldA;
-let popFieldB;
-let popCloseButton;
-let popWindow;
-let popForm;
+const cardUser = document.querySelector('#card-user');
+const cardUserCloseButton = cardUser.querySelector('.popup__close');
+const formUser = cardUser.querySelector('form');
+const inputUserName = formUser.querySelector('#input-user-name');
+const inputUserJob = formUser.querySelector('#input-user-job');
 
+const cardPlace = document.querySelector('#card-place');
+const cardPlaceCloseButton = cardPlace.querySelector('.popup__close');
+const formPlace = cardPlace.querySelector('form');
+const inputPlaceName = formPlace.querySelector('#input-place-name');
+const inputPlaceLink = formPlace.querySelector('#input-img-link');
+
+const cardImage = document.querySelector('#card-image');
+const cardImageCloseButton = cardImage.querySelector('.popup__close');
 
 function putElementsFromBox() {
   elementsInBox.forEach((item) => {
-    addPlace(item.name, item.link);
+    elementsSection.append(createPlace(item.name, item.link));
   });
 }
 
-function addPlace(name, link, isStartPosition = false) {
+function createPlace(name, link) {
   const currentElement = elementTemplate.querySelector('.elements__element').cloneNode(true);
-  currentElement.querySelector('.elements__element-img').src = link;
-  currentElement.querySelector('.elements__element-img').alt = name;
+  const currentElementImg = currentElement.querySelector('.elements__element-img');
+
+  currentElementImg.src = link;
+  currentElementImg.alt = name;
   currentElement.querySelector('.elements__element-text').textContent = name;
 
   currentElement.querySelector('.elements__element-favour').addEventListener('click', clickLikeBtm);
   currentElement.querySelector('.elements__element-trash').addEventListener('click', clickTrashBtm);
-  currentElement.querySelector('.elements__element-img').addEventListener('click', сlickPicture);
+  currentElementImg.addEventListener('click', сlickPicture);
 
-  if (isStartPosition) {
-    elementsSection.prepend(currentElement);
-  } else {
-    elementsSection.append(currentElement);
-  }
+  return currentElement;
 }
 
-function adjustPopUpForm(id) {
-  if (id === 0) {
-    popWindow = document.querySelector('#popUpUser');
-    popForm = popWindow.querySelector('form');
-    popFieldA = popForm.querySelector('#fieldAuser');
-    popFieldB = popForm.querySelector('#fieldBuser');
-    popCloseButton = popWindow.querySelector('.popup__close');
-    popForm.addEventListener('submit', handleFormSubmit);
-    popCloseButton.addEventListener('click', clickPopUpCloseBtm);
-  }
-  else if (id === 1) {
-    popWindow = document.querySelector('#popUpPlace');
-    popForm = popWindow.querySelector('form');
-    popFieldA = popForm.querySelector('#fieldAplace');
-    popFieldB = popForm.querySelector('#fieldBplace');
-    popCloseButton = popWindow.querySelector('.popup__close');
-    popForm.addEventListener('submit', handleFormSubmit);
-    popCloseButton.addEventListener('click', clickPopUpCloseBtm);
-  }
-  else {
-    popWindow = document.querySelector('#popUpImg');
-    popCloseButton = popWindow.querySelector('.popup__close');
-    popCloseButton.addEventListener('click', clickPopUpCloseBtm);
-  }
+function toggleVisible(card) {
+  card.classList.toggle('popup_opened');
 }
-
-function saveProfile(name, info) {
-  pgAuthor.textContent = name;
-  pgInfo.textContent = info;
-}
-
-
 
 function clickLikeBtm(evt) {
   evt.target.classList.toggle('elements__element-favour_yes');
@@ -105,43 +55,53 @@ function clickTrashBtm(evt) {
 }
 
 function сlickPlaceAddBtm() {
-  adjustPopUpForm(1);
-  popWindow.classList.add('popup_opened');
-  popFieldA.value = '';
-  popFieldB.value = '';
+  toggleVisible(cardPlace);
+  formPlace.reset();
 }
 
 function сlickPicture(evt) {
-  adjustPopUpForm(2);
-  popWindow.classList.add('popup_opened');
-  const originElement = evt.target.parentElement;
-  popWindow.querySelector('.popup__title').textContent =
-    originElement.querySelector('.elements__element-text').textContent;
-    popWindow.querySelector('img').src = evt.target.src;
+  const originElement = evt.target;
+  const imgCurrent = cardImage.querySelector('.popup__image');
+
+  toggleVisible(cardImage);
+  cardImage.querySelector('.popup__title').textContent =
+    originElement.parentElement.querySelector('.elements__element-text').textContent;
+  imgCurrent.src = originElement.src;
+  imgCurrent.alt = originElement.alt;
 }
 
 function сlickProfileEditBtm() {
-  adjustPopUpForm(0);
-  popWindow.classList.add('popup_opened');
-  popFieldA.value = pgAuthor.textContent;
-  popFieldB.value = pgInfo.textContent;
+  toggleVisible(cardUser);
+  inputUserName.value = profileTextAuthor.textContent;
+  inputUserJob.value = profileTextJob.textContent;
 }
 
-function clickPopUpCloseBtm(evt) {
-  evt.target.closest('.popup').classList.remove('popup_opened');
+function clickCardCloseBtm(evt) {
+  toggleVisible(evt.target.closest('.popup'));
 }
 
 function handleFormSubmit(evt) {
   evt.preventDefault();
-  if (popWindow.id === 'popUpUser') {
-    saveProfile(popFieldA.value, popFieldB.value);
+  const currentCard = evt.target.closest('.popup');
+  if (currentCard.id === 'card-user') {
+    profileTextAuthor.textContent = inputUserName.value;
+    profileTextJob.textContent = inputUserJob.value;
   }
-  else if (popWindow.id === 'popUpPlace') {
-    addPlace(popFieldA.value, popFieldB.value, true);
+  else if (currentCard.id === 'card-place') {
+    elementsSection.prepend(createPlace(inputPlaceName.value, inputPlaceLink.value));
   }
-  clickPopUpCloseBtm(evt);
+
+  clickCardCloseBtm(evt);
 }
 
 document.addEventListener('DOMContentLoaded', putElementsFromBox);
 profileEditButton.addEventListener('click', сlickProfileEditBtm);
 placeAddButton.addEventListener('click', сlickPlaceAddBtm);
+
+formUser.addEventListener('submit', handleFormSubmit);
+cardUserCloseButton.addEventListener('click', clickCardCloseBtm);
+
+formPlace.addEventListener('submit', handleFormSubmit);
+cardPlaceCloseButton.addEventListener('click', clickCardCloseBtm);
+
+cardImageCloseButton.addEventListener('click', clickCardCloseBtm);
