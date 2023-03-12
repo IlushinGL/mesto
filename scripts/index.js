@@ -80,17 +80,16 @@ function clickCardCloseBtm(evt) {
   toggleVisible(evt.target.closest('.popup'));
 }
 
-function handleFormSubmit(evt) {
+function handleUserFormSubmit(evt) {
   evt.preventDefault();
-  const currentCard = evt.target.closest('.popup');
-  if (currentCard.id === 'card-user') {
-    profileTextAuthor.textContent = inputUserName.value;
-    profileTextJob.textContent = inputUserJob.value;
-  }
-  else if (currentCard.id === 'card-place') {
-    elementsSection.prepend(createPlace(inputPlaceName.value, inputPlaceLink.value));
-  }
+  profileTextAuthor.textContent = inputUserName.value;
+  profileTextJob.textContent = inputUserJob.value;
+  clickCardCloseBtm(evt);
+}
 
+function handlePlaceFormSubmit(evt) {
+  evt.preventDefault();
+  elementsSection.prepend(createPlace(inputPlaceName.value, inputPlaceLink.value));
   clickCardCloseBtm(evt);
 }
 
@@ -98,10 +97,10 @@ document.addEventListener('DOMContentLoaded', putElementsFromBox);
 profileEditButton.addEventListener('click', сlickProfileEditBtm);
 placeAddButton.addEventListener('click', сlickPlaceAddBtm);
 
-formUser.addEventListener('submit', handleFormSubmit);
+formUser.addEventListener('submit', handleUserFormSubmit);
 cardUserCloseButton.addEventListener('click', clickCardCloseBtm);
 
-formPlace.addEventListener('submit', handleFormSubmit);
+formPlace.addEventListener('submit', handlePlaceFormSubmit);
 cardPlaceCloseButton.addEventListener('click', clickCardCloseBtm);
 
 cardImageCloseButton.addEventListener('click', clickCardCloseBtm);
