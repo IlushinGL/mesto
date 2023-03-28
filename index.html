@@ -57,23 +57,29 @@
     <div class="popup__conteiner">
       <button type="button" class="popup__close"></button>
       <h2 class="popup__title">Новое место</h2>
-      <form id="form-place" name="form-place">
+      <form id="form-place" name="form-place" novalidate>
         <input
               id="input-place-name"
               name="input-place-name"
               type="text"
               placeholder="Название"
-              class="popup__input-text">
+              minlength="2"
+              maxlength="30"
+              class="popup__input-text"
+              required>
+        <span class="input-place-name-error popup__input-error"></span>
         <input
               id="input-img-link"
               name="input-img-link"
-              type="text"
+              type="url"
               placeholder="Ссылка на картинку"
-              class="popup__input-text">
+              class="popup__input-text"
+              required>
+        <span class="input-img-link-error popup__input-error"></span>
         <button
               type="submit"
               class="popup__submit-btn">
-          Сохранить
+          Создать
         </button>
       </form>
     </div>
@@ -83,19 +89,27 @@
     <div class="popup__conteiner">
       <button type="button" class="popup__close"></button>
       <h2 class="popup__title">Редактировать профиль</h2>
-      <form id="form-user" name="form-user">
+      <form id="form-user" name="form-user" novalidate>
         <input
               id="input-user-name"
               name="input-user-name"
               type="text"
-              placeholder="Автор"
-              class="popup__input-text">
+              placeholder="Имя"
+              minlength="2"
+              maxlength="40"
+              class="popup__input-text"
+              required>
+        <span class="input-user-name-error popup__input-error"></span>
         <input
               id="input-user-job"
               name="input-user-job"
               type="text"
-              placeholder="Основная деятельность"
-              class="popup__input-text">
+              placeholder="О себе"
+              minlength="2"
+              maxlength="200"
+              class="popup__input-text"
+              required>
+        <span class="input-user-job-error popup__input-error"></span>
         <button
               type="submit"
               class="popup__submit-btn">
@@ -118,6 +132,7 @@
   </template>
 
   <script src="./scripts/constant.js"></script>
+  <script src="./scripts/validate.js"></script>
   <script src="./scripts/index.js"></script>
 
 </body>

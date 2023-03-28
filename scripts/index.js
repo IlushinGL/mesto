@@ -46,6 +46,13 @@ function toggleVisible(card) {
   card.classList.toggle('popup_opened');
 }
 
+function clearErrorMessages(popupForm) {
+  const inputList = Array.from(popupForm.querySelectorAll('.popup__input-text'));
+  inputList.forEach((inputElement) => {
+    hideInputError(popupForm, inputElement);
+  });
+}
+
 function clickLikeBtm(evt) {
   evt.target.classList.toggle('elements__element-favour_yes');
 }
@@ -55,6 +62,7 @@ function clickTrashBtm(evt) {
 }
 
 function сlickPlaceAddBtm() {
+  clearErrorMessages(formPlace);
   toggleVisible(cardPlace);
   formPlace.reset();
 }
@@ -71,6 +79,7 @@ function сlickPicture(evt) {
 }
 
 function сlickProfileEditBtm() {
+  clearErrorMessages(formUser);
   toggleVisible(cardUser);
   inputUserName.value = profileTextAuthor.textContent;
   inputUserJob.value = profileTextJob.textContent;
