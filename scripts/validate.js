@@ -13,14 +13,13 @@ const showInputError = (formElement, inputElement, errorMessage) => {
   // inputElement.classList.add('popup__input-error');
   errorElement.textContent = errorMessage;
   errorElement.classList.add('popup_input-error_active');
-  console.log(errorElement.classList);
 };
 
 const hideInputError = (formElement, inputElement) => {
   const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
   // inputElement.classList.remove('popup__input-error');
   errorElement.classList.remove('popup_input-error_active');
-  errorElement.textContent = ' ';
+  errorElement.textContent = '';
 };
 
 const checkInputValidity = (formElement, inputElement) => {
@@ -36,7 +35,7 @@ const setEventListeners = (formElement) => {
   const buttonElement = formElement.querySelector('.popup__submit-btn');
 
   // чтобы проверить состояние кнопки в самом начале
-  toggleButtonState(inputList, buttonElement);
+  // toggleButtonState(inputList, buttonElement);
 
   inputList.forEach((inputElement) => {
     inputElement.addEventListener('input', function () {
@@ -66,9 +65,11 @@ const hasInvalidInput = (inputList) => {
 
 const toggleButtonState = (inputList, buttonElement) => {
   if (hasInvalidInput(inputList)) {
-    buttonElement.classList.add('button_inactive');
+    buttonElement.classList.add('popup__submit-btm_inactive');
+    buttonElement.disabled = true;
   } else {
-    buttonElement.classList.remove('button_inactive');
+    buttonElement.classList.remove('popup__submit-btm_inactive');
+    buttonElement.disabled = false;
   }
 };
 

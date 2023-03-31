@@ -53,6 +53,12 @@ function clearErrorMessages(popupForm) {
   });
 }
 
+function resetSubmitBtm(popupForm) {
+  const buttonElement = popupForm.querySelector('.popup__submit-btn');
+  buttonElement.classList.add('popup__submit-btm_inactive');
+  buttonElement.disabled = true;
+}
+
 function clickLikeBtm(evt) {
   evt.target.classList.toggle('elements__element-favour_yes');
 }
@@ -63,6 +69,7 @@ function clickTrashBtm(evt) {
 
 function сlickPlaceAddBtm() {
   clearErrorMessages(formPlace);
+  resetSubmitBtm(formPlace);
   toggleVisible(cardPlace);
   formPlace.reset();
 }
@@ -80,6 +87,7 @@ function сlickPicture(evt) {
 
 function сlickProfileEditBtm() {
   clearErrorMessages(formUser);
+  resetSubmitBtm(formUser);
   toggleVisible(cardUser);
   inputUserName.value = profileTextAuthor.textContent;
   inputUserJob.value = profileTextJob.textContent;
