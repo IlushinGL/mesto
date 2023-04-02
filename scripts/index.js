@@ -110,6 +110,8 @@ function handlePlaceFormSubmit(evt) {
   clickCardCloseBtm(evt);
 }
 
+enableValidation();
+
 document.addEventListener('DOMContentLoaded', putElementsFromBox);
 profileEditButton.addEventListener('click', сlickProfileEditBtm);
 placeAddButton.addEventListener('click', сlickPlaceAddBtm);

@@ -10,14 +10,12 @@ const popupValidatorConfig = {
 
 const showInputError = (formElement, inputElement, errorMessage) => {
   const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
-  // inputElement.classList.add('popup__input-error');
   errorElement.textContent = errorMessage;
   errorElement.classList.add('popup_input-error_active');
 };
 
 const hideInputError = (formElement, inputElement) => {
   const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
-  // inputElement.classList.remove('popup__input-error');
   errorElement.classList.remove('popup_input-error_active');
   errorElement.textContent = '';
 };
@@ -34,13 +32,9 @@ const setEventListeners = (formElement) => {
   const inputList = Array.from(formElement.querySelectorAll('.popup__input-text'));
   const buttonElement = formElement.querySelector('.popup__submit-btn');
 
-  // чтобы проверить состояние кнопки в самом начале
-  // toggleButtonState(inputList, buttonElement);
-
   inputList.forEach((inputElement) => {
     inputElement.addEventListener('input', function () {
       checkInputValidity(formElement, inputElement);
-      // чтобы проверять его при изменении любого из полей
       toggleButtonState(inputList, buttonElement);
     });
   });
@@ -72,5 +66,3 @@ const toggleButtonState = (inputList, buttonElement) => {
     buttonElement.disabled = false;
   }
 };
-
-enableValidation();
