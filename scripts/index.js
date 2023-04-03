@@ -21,8 +21,6 @@ const inputPlaceLink = formPlace.querySelector('#input-img-link');
 const cardImage = document.querySelector('#card-image');
 const cardImageCloseButton = cardImage.querySelector('.popup__close');
 
-let cardRunning = null;
-
 function putElementsFromBox() {
   elementsInBox.forEach((item) => {
     elementsSection.append(createPlace(item.name, item.link));
@@ -39,27 +37,32 @@ function createPlace(name, link) {
 
   currentElement.querySelector('.elements__element-favour').addEventListener('click', clickLikeBtm);
   currentElement.querySelector('.elements__element-trash').addEventListener('click', clickTrashBtm);
-  currentElementImg.addEventListener('click', сlickPicture);
+  currentElementImg.addEventListener('click', () => clickPicture(name, link));
 
   return currentElement;
 }
 
-function toggleVisible(card) {
-  card.classList.toggle('popup_opened');
+function openPopup(popupCard) {
+  popupCard.classList.add('popup_opened');
+  document.addEventListener('keydown', closeByEsc);
 }
 
-function clearErrorMessages(popupForm) {
-  const inputList = Array.from(popupForm.querySelectorAll('.popup__input-text'));
-  inputList.forEach((inputElement) => {
-    hideInputError(popupForm, inputElement);
-  });
+function closePopup(popupCard) {
+  popupCard.classList.remove('popup_opened');
+  document.removeEventListener('keydown', closeByEsc);
+}
+
+function closeByEsc(evt) {
+  if (evt.key === 'Escape') {
+    const openedPopup = document.querySelector('.popup_opened');
+    closePopup(openedPopup);
+  }
 }
 
 function resetSubmitBtm(popupForm) {
   const buttonElement = popupForm.querySelector('.popup__submit-btn');
   buttonElement.classList.add('popup__submit-btm_inactive');
   buttonElement.disabled = true;
-  document.removeEventListener('keydown', pressEscKey);
 }
 
 function clickLikeBtm(evt) {
@@ -71,47 +74,30 @@ function clickTrashBtm(evt) {
 }
 
 function clickCardCloseBtm(evt) {
-  toggleVisible(evt.target.closest('.popup'));
-  document.removeEventListener('keydown', pressEscKey);
-}
-
-function pressEscKey(evt) {
-  if (evt.key === 'Escape') {
-    toggleVisible(cardRunning);
-    document.removeEventListener('keydown', pressEscKey);
-  }
+  closePopup(evt.target.closest('.popup'));
 }
 
 function сlickPlaceAddBtm() {
-  clearErrorMessages(formPlace);
   resetSubmitBtm(formPlace);
-  toggleVisible(cardPlace);
   formPlace.reset();
-  document.addEventListener('keydown', pressEscKey);
-  cardRunning = cardPlace;
+  openPopup(cardPlace);
 }
 
-function сlickPicture(evt) {
-  const originElement = evt.target;
+function clickPicture(name, link) {
   const imgCurrent = cardImage.querySelector('.popup__image');
 
-  toggleVisible(cardImage);
-  cardImage.querySelector('.popup__title').textContent =
-    originElement.parentElement.querySelector('.elements__element-text').textContent;
-  imgCurrent.src = originElement.src;
-  imgCurrent.alt = originElement.alt;
-  document.addEventListener('keydown', pressEscKey);
-  cardRunning = cardImage;
+  cardImage.querySelector('.popup__title').textContent = name;
+  imgCurrent.src = link;
+  imgCurrent.alt = name;
+  openPopup(cardImage);
 }
 
 function сlickProfileEditBtm() {
-  clearErrorMessages(formUser);
   resetSubmitBtm(formUser);
-  toggleVisible(cardUser);
+  formUser.reset();
   inputUserName.value = profileTextAuthor.textContent;
   inputUserJob.value = profileTextJob.textContent;
-  document.addEventListener('keydown', pressEscKey);
-  cardRunning = cardUser;
+  openPopup(cardUser);
 }
 
 function clickPopupOverlay(evt) {
@@ -150,13 +136,4 @@ cardPlace.addEventListener('click', clickPopupOverlay);
 cardImageCloseButton.addEventListener('click', clickCardCloseBtm);
 cardImage.addEventListener('click', clickPopupOverlay);
 
-enableValidation(
-  {
-    // formSelector: '.popup__conteiner',
-    inputSelector: '.popup__input-text',
-    submitButtonSelector: '.popup__submit-btn',
-    inactiveButtonClass: 'popup__submit-btm_inactive',
-    // inputErrorClass: 'popup__input-text_type_error',
-    errorClass: 'popup_input-error_active'
-  }
-);
+enableValidation(validationConfig);

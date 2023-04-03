@@ -24,3 +24,12 @@ const elementsInBox = [
     link: './images/el_6_italy.jpg'
   }
 ];
+
+const validationConfig = {
+  formSelector: '.popup_form',
+  inputSelector: '.popup__input-text',
+  submitButtonSelector: '.popup__submit-btn',
+  inactiveButtonClass: 'popup__submit-btm_inactive',
+  // inputErrorClass: 'popup__input-text_type_error',
+  errorClass: 'popup_input-error_active',
+};
