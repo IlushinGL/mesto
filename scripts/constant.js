@@ -26,7 +26,7 @@ const elementsInBox = [
 ];
 
 const validationConfig = {
-  formSelector: '.popup_form',
+  formSelector: '.popup-form',
   inputSelector: '.popup__input-text',
   submitButtonSelector: '.popup__submit-btn',
   inactiveButtonClass: 'popup__submit-btm_inactive',
