@@ -1,8 +1,6 @@
 .popup__conteiner_img {
-  display: flex;
-  flex-direction: column;
   padding: 0;
-  max-width: 75vw;
+  width: auto;
   max-height: calc(75vh + 25px);
   border-radius: 0;
   background-color: transparent;
