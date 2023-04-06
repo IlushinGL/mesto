@@ -7,19 +7,19 @@ const profileTextAuthor = document.querySelector('#profile-text-author');
 const profileTextJob = document.querySelector('#profile-text-job');
 
 const cardUser = document.querySelector('#card-user');
-const cardUserCloseButton = cardUser.querySelector('.popup__close');
 const formUser = cardUser.querySelector('form');
 const inputUserName = formUser.querySelector('#input-user-name');
 const inputUserJob = formUser.querySelector('#input-user-job');
 
 const cardPlace = document.querySelector('#card-place');
-const cardPlaceCloseButton = cardPlace.querySelector('.popup__close');
 const formPlace = cardPlace.querySelector('form');
 const inputPlaceName = formPlace.querySelector('#input-place-name');
 const inputPlaceLink = formPlace.querySelector('#input-img-link');
 
 const cardImage = document.querySelector('#card-image');
-const cardImageCloseButton = cardImage.querySelector('.popup__close');
+const imgCurrent = cardImage.querySelector('.popup__image');
+
+const buttonCloseList = document.querySelectorAll('.popup__close');
 
 function putElementsFromBox() {
   elementsInBox.forEach((item) => {
@@ -77,22 +77,20 @@ function clickCardCloseBtm(evt) {
   closePopup(evt.target.closest('.popup'));
 }
 
-function сlickPlaceAddBtm() {
+function clickPlaceAddBtm() {
   resetSubmitBtm(formPlace);
   formPlace.reset();
   openPopup(cardPlace);
 }
 
 function clickPicture(name, link) {
-  const imgCurrent = cardImage.querySelector('.popup__image');
-
   cardImage.querySelector('.popup__title').textContent = name;
   imgCurrent.src = link;
   imgCurrent.alt = name;
   openPopup(cardImage);
 }
 
-function сlickProfileEditBtm() {
+function clickProfileEditBtm() {
   resetSubmitBtm(formUser);
   formUser.reset();
   inputUserName.value = profileTextAuthor.textContent;
@@ -121,19 +119,17 @@ function handlePlaceFormSubmit(evt) {
 
 document.addEventListener('DOMContentLoaded', putElementsFromBox);
 
-profileEditButton.addEventListener('click', сlickProfileEditBtm);
-placeAddButton.addEventListener('click', сlickPlaceAddBtm);
+profileEditButton.addEventListener('click', clickProfileEditBtm);
+placeAddButton.addEventListener('click', clickPlaceAddBtm);
 
 formUser.addEventListener('submit', handleUserFormSubmit);
-cardUserCloseButton.addEventListener('click', clickCardCloseBtm);
-cardUser.addEventListener('click', clickPopupOverlay);
 
 formPlace.addEventListener('submit', handlePlaceFormSubmit);
-cardPlaceCloseButton.addEventListener('click', clickCardCloseBtm);
-cardPlace.addEventListener('click', clickPopupOverlay);
 
-
-cardImageCloseButton.addEventListener('click', clickCardCloseBtm);
-cardImage.addEventListener('click', clickPopupOverlay);
+buttonCloseList.forEach(btn => {
+  const popup = btn.closest('.popup');
+  popup.addEventListener('mousedown', clickPopupOverlay);
+  btn.addEventListener('click', () => closePopup(popup));
+})
 
 enableValidation(validationConfig);
