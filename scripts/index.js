@@ -1,4 +1,7 @@
-const elementTemplate = document.querySelector('#template-element').content;
+import Card from './card.js';
+const placeTemplateId = '#template-element';
+
+
 const elementsSection = document.querySelector('.elements');
 
 const profileEditButton = document.querySelector('.profile__edit-button');
@@ -23,23 +26,9 @@ const buttonCloseList = document.querySelectorAll('.popup__close');
 
 function putElementsFromBox() {
   elementsInBox.forEach((item) => {
-    elementsSection.append(createPlace(item.name, item.link));
+    const card = new Card(item.name, item.link, placeTemplateId, clickPicture);
+    elementsSection.append(card.generateCard());
   });
-}
-
-function createPlace(name, link) {
-  const currentElement = elementTemplate.querySelector('.elements__element').cloneNode(true);
-  const currentElementImg = currentElement.querySelector('.elements__element-img');
-
-  currentElementImg.src = link;
-  currentElementImg.alt = name;
-  currentElement.querySelector('.elements__element-text').textContent = name;
-
-  currentElement.querySelector('.elements__element-favour').addEventListener('click', clickLikeBtm);
-  currentElement.querySelector('.elements__element-trash').addEventListener('click', clickTrashBtm);
-  currentElementImg.addEventListener('click', () => clickPicture(name, link));
-
-  return currentElement;
 }
 
 function openPopup(popupCard) {
@@ -63,14 +52,6 @@ function resetSubmitBtm(popupForm) {
   const buttonElement = popupForm.querySelector('.popup__submit-btn');
   buttonElement.classList.add('popup__submit-btm_inactive');
   buttonElement.disabled = true;
-}
-
-function clickLikeBtm(evt) {
-  evt.target.classList.toggle('elements__element-favour_yes');
-}
-
-function clickTrashBtm(evt) {
-  evt.target.closest('.elements__element').remove();
 }
 
 function clickCardCloseBtm(evt) {
@@ -113,7 +94,8 @@ function handleUserFormSubmit(evt) {
 
 function handlePlaceFormSubmit(evt) {
   evt.preventDefault();
-  elementsSection.prepend(createPlace(inputPlaceName.value, inputPlaceLink.value));
+  const card = new Card(inputPlaceName.value, inputPlaceLink.value, placeTemplateId, clickPicture);
+  elementsSection.prepend(card.generateCard());
   clickCardCloseBtm(evt);
 }
 
