@@ -1,6 +1,6 @@
-import Card from './card.js';
-const placeTemplateId = '#template-element';
-
+import {elementsInBox, validationConfig} from './constant.js';
+import Card from './Card.js';
+import FormValidator from './FormValidator.js';
 
 const elementsSection = document.querySelector('.elements');
 
@@ -10,12 +10,12 @@ const profileTextAuthor = document.querySelector('#profile-text-author');
 const profileTextJob = document.querySelector('#profile-text-job');
 
 const cardUser = document.querySelector('#card-user');
-const formUser = cardUser.querySelector('form');
+const formUser = cardUser.querySelector(validationConfig.formSelector);
 const inputUserName = formUser.querySelector('#input-user-name');
 const inputUserJob = formUser.querySelector('#input-user-job');
 
 const cardPlace = document.querySelector('#card-place');
-const formPlace = cardPlace.querySelector('form');
+const formPlace = cardPlace.querySelector(validationConfig.formSelector);
 const inputPlaceName = formPlace.querySelector('#input-place-name');
 const inputPlaceLink = formPlace.querySelector('#input-img-link');
 
@@ -23,6 +23,8 @@ const cardImage = document.querySelector('#card-image');
 const imgCurrent = cardImage.querySelector('.popup__image');
 
 const buttonCloseList = document.querySelectorAll('.popup__close');
+
+const placeTemplateId = '#template-element';
 
 function putElementsFromBox() {
   elementsInBox.forEach((item) => {
@@ -61,6 +63,7 @@ function clickCardCloseBtm(evt) {
 function clickPlaceAddBtm() {
   resetSubmitBtm(formPlace);
   formPlace.reset();
+  placeValidator.clearAllErr();
   openPopup(cardPlace);
 }
 
@@ -73,7 +76,7 @@ function clickPicture(name, link) {
 
 function clickProfileEditBtm() {
   resetSubmitBtm(formUser);
-  formUser.reset();
+  userValidator.clearAllErr();
   inputUserName.value = profileTextAuthor.textContent;
   inputUserJob.value = profileTextJob.textContent;
   openPopup(cardUser);
@@ -105,7 +108,6 @@ profileEditButton.addEventListener('click', clickProfileEditBtm);
 placeAddButton.addEventListener('click', clickPlaceAddBtm);
 
 formUser.addEventListener('submit', handleUserFormSubmit);
-
 formPlace.addEventListener('submit', handlePlaceFormSubmit);
 
 buttonCloseList.forEach(btn => {
@@ -114,4 +116,8 @@ buttonCloseList.forEach(btn => {
   btn.addEventListener('click', () => closePopup(popup));
 })
 
-enableValidation(validationConfig);
+
+const userValidator = new FormValidator(validationConfig, formUser);
+const placeValidator = new FormValidator(validationConfig, formPlace);
+userValidator.enableValidation();
+placeValidator.enableValidation();

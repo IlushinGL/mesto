@@ -1,4 +1,4 @@
-const elementsInBox = [
+export const elementsInBox = [
   {
     name: 'Москва 1964. Смоленская площадь',
     link: './images/el_1_ussr.jpg'
@@ -25,11 +25,10 @@ const elementsInBox = [
   }
 ];
 
-const validationConfig = {
+export const validationConfig = {
   formSelector: '.popup-form',
   inputSelector: '.popup__input-text',
   submitButtonSelector: '.popup__submit-btn',
   inactiveButtonClass: 'popup__submit-btm_inactive',
-  // inputErrorClass: 'popup__input-text_type_error',
   errorClass: 'popup_input-error_active',
 };
