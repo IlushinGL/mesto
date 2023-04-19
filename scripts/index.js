@@ -1,5 +1,5 @@
 import {elementsInBox, validationConfig} from './constant.js';
-import Card from './card.js';
+import {Card} from './card.js';
 import FormValidator from './FormValidator.js';
 
 const elementsSection = document.querySelector('.elements');

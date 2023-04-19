@@ -1,4 +1,4 @@
-export default class Card {
+export class Card {
   constructor(templateSelector, imgClickFunction) {
     this._templateSelector = templateSelector;
     this._imgClickFunction = imgClickFunction;
