@@ -28,8 +28,8 @@ const placeTemplateId = '#template-element';
 
 function putElementsFromBox() {
   elementsInBox.forEach((item) => {
-    const card = new Card(item.name, item.link, placeTemplateId, clickPicture);
-    elementsSection.append(card.generateCard());
+    const card = new Card(placeTemplateId, clickPicture);
+    elementsSection.append(card.createCard(item.name, item.link));
   });
 }
 
@@ -50,19 +50,13 @@ function closeByEsc(evt) {
   }
 }
 
-function resetSubmitBtm(popupForm) {
-  const buttonElement = popupForm.querySelector('.popup__submit-btn');
-  buttonElement.classList.add('popup__submit-btm_inactive');
-  buttonElement.disabled = true;
-}
-
-function clickCardCloseBtm(evt) {
+function closeClosestPopup(evt) {
   closePopup(evt.target.closest('.popup'));
 }
 
-function clickPlaceAddBtm() {
-  resetSubmitBtm(formPlace);
+function clickPlaceAddBtn() {
   formPlace.reset();
+  placeValidator.toggleButtonState();
   placeValidator.clearAllErr();
   openPopup(cardPlace);
 }
@@ -74,8 +68,8 @@ function clickPicture(name, link) {
   openPopup(cardImage);
 }
 
-function clickProfileEditBtm() {
-  resetSubmitBtm(formUser);
+function clickProfileEditBtn() {
+  userValidator.toggleButtonState();
   userValidator.clearAllErr();
   inputUserName.value = profileTextAuthor.textContent;
   inputUserJob.value = profileTextJob.textContent;
@@ -84,7 +78,7 @@ function clickProfileEditBtm() {
 
 function clickPopupOverlay(evt) {
   if(evt.target.classList.contains('popup')) {
-    clickCardCloseBtm(evt);
+    closeClosestPopup(evt);
   }
 }
 
@@ -92,20 +86,18 @@ function handleUserFormSubmit(evt) {
   evt.preventDefault();
   profileTextAuthor.textContent = inputUserName.value;
   profileTextJob.textContent = inputUserJob.value;
-  clickCardCloseBtm(evt);
+  closePopup(cardUser);
 }
 
 function handlePlaceFormSubmit(evt) {
   evt.preventDefault();
-  const card = new Card(inputPlaceName.value, inputPlaceLink.value, placeTemplateId, clickPicture);
-  elementsSection.prepend(card.generateCard());
-  clickCardCloseBtm(evt);
+  const card = new Card(placeTemplateId, clickPicture);
+  elementsSection.prepend(card.createCard(inputPlaceName.value, inputPlaceLink.value));
+  closePopup(cardPlace);
 }
 
-document.addEventListener('DOMContentLoaded', putElementsFromBox);
-
-profileEditButton.addEventListener('click', clickProfileEditBtm);
-placeAddButton.addEventListener('click', clickPlaceAddBtm);
+profileEditButton.addEventListener('click', clickProfileEditBtn);
+placeAddButton.addEventListener('click', clickPlaceAddBtn);
 
 formUser.addEventListener('submit', handleUserFormSubmit);
 formPlace.addEventListener('submit', handlePlaceFormSubmit);
@@ -116,7 +108,7 @@ buttonCloseList.forEach(btn => {
   btn.addEventListener('click', () => closePopup(popup));
 })
 
-
+putElementsFromBox();
 const userValidator = new FormValidator(validationConfig, formUser);
 const placeValidator = new FormValidator(validationConfig, formPlace);
 userValidator.enableValidation();

@@ -1,7 +1,5 @@
 export default class Card {
-  constructor(text, imageLink, templateSelector, imgClickFunction) {
-    this._text = text;
-    this._link = imageLink;
+  constructor(templateSelector, imgClickFunction) {
     this._templateSelector = templateSelector;
     this._imgClickFunction = imgClickFunction;
   }
@@ -20,7 +18,7 @@ export default class Card {
   }
 
   _handleTrashClick() {
-    this._trash.closest('.elements__element').remove();
+    this._element.remove();
   }
 
   _handleImageClick() {
@@ -33,16 +31,19 @@ export default class Card {
     this._image.addEventListener('click', () => this._handleImageClick());
   }
 
-  generateCard() {
+  createCard(text, imageLink) {
     this._element = this._getTemplate();
+    this._text = text;
+    this._link = imageLink;
     this._like = this._element.querySelector('.elements__element-favour');
     this._trash = this._element.querySelector('.elements__element-trash');
     this._image = this._element.querySelector('.elements__element-img');
-    this._setEventListeners();
 
     this._image.src = this._link;
     this._image.alt = this._text;
     this._element.querySelector('.elements__element-text').textContent = this._text;
+
+    this._setEventListeners();
 
     return this._element;
   }
