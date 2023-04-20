@@ -26,10 +26,14 @@ const buttonCloseList = document.querySelectorAll('.popup__close');
 
 const placeTemplateId = '#template-element';
 
+const createCard = (name, link) => {
+  const card = new Card(name, link, placeTemplateId, clickPicture);
+  return card.generateCard();
+}
+
 function putElementsFromBox() {
   elementsInBox.forEach((item) => {
-    const card = new Card(placeTemplateId, clickPicture);
-    elementsSection.append(card.createCard(item.name, item.link));
+    elementsSection.append(createCard(item.name, item.link));
   });
 }
 
@@ -91,8 +95,7 @@ function handleUserFormSubmit(evt) {
 
 function handlePlaceFormSubmit(evt) {
   evt.preventDefault();
-  const card = new Card(placeTemplateId, clickPicture);
-  elementsSection.prepend(card.createCard(inputPlaceName.value, inputPlaceLink.value));
+  elementsSection.prepend(createCard(inputPlaceName.value, inputPlaceLink.value));
   closePopup(cardPlace);
 }
 

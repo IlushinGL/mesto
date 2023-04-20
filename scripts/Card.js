@@ -1,5 +1,7 @@
 export default class Card {
-  constructor(templateSelector, imgClickFunction) {
+  constructor(text, imageLink, templateSelector, imgClickFunction) {
+    this._text = text;
+    this._link = imageLink;
     this._templateSelector = templateSelector;
     this._imgClickFunction = imgClickFunction;
   }
@@ -31,10 +33,8 @@ export default class Card {
     this._image.addEventListener('click', () => this._handleImageClick());
   }
 
-  createCard(text, imageLink) {
+  generateCard(text, imageLink) {
     this._element = this._getTemplate();
-    this._text = text;
-    this._link = imageLink;
     this._like = this._element.querySelector('.elements__element-favour');
     this._trash = this._element.querySelector('.elements__element-trash');
     this._image = this._element.querySelector('.elements__element-img');
