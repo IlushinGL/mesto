@@ -1,118 +1,71 @@
-// import {elementsInBox, validationConfig} from './constant.js';
-// import {Card} from './Card.js';
-// import FormValidator from './FormValidator.js';
+import {placesArray} from '../utils/placesArray.js';
+import {
+  sectionCardsOfPlacesSelector,
+  templateCardOfPlaceSelector,
+  popupCardOfPlaceSelector,
+  popupNewPlaceFormSelector,
+  popupEditUserFormSelector,
+  currentUserDataSelectors,
+  inputsUserFormFields,
+  inputsPlaceFormFields,
+} from '../utils/constants.js';
 
-const elementsSection = document.querySelector('.elements');
+import Section from '../components/Section.js';
+import Card from '../components/Card.js';
+import PopupWithImage from '../components/PopupWithImage.js';
+import PopupWithForm from '../components/PopupWithForm.js';
+import UserInfo from '../components/UserInfo.js';
 
-const profileEditButton = document.querySelector('.profile__edit-button');
 const placeAddButton = document.querySelector('.profile__add-button');
-const profileTextAuthor = document.querySelector('#profile-text-author');
-const profileTextJob = document.querySelector('#profile-text-job');
+const profileEditButton = document.querySelector('.profile__edit-button');
 
-const cardUser = document.querySelector('#card-user');
-const formUser = cardUser.querySelector(validationConfig.formSelector);
-const inputUserName = formUser.querySelector('#input-user-name');
-const inputUserJob = formUser.querySelector('#input-user-job');
+const sectionCardsOfPlaces = new Section({items: placesArray, renderer: createCardOfPlace}, sectionCardsOfPlacesSelector);
+const popupCardOfPlace = new PopupWithImage(popupCardOfPlaceSelector);
+const popupNewPlaceForm = new PopupWithForm(popupNewPlaceFormSelector, handleNewPlaceFormSubmit);
+const popupEditUserForm = new PopupWithForm(popupEditUserFormSelector, handleEditUserFormSubmit);
+const currentUserData = new UserInfo(currentUserDataSelectors);
 
-const cardPlace = document.querySelector('#card-place');
-const formPlace = cardPlace.querySelector(validationConfig.formSelector);
-const inputPlaceName = formPlace.querySelector('#input-place-name');
-const inputPlaceLink = formPlace.querySelector('#input-img-link');
+placeAddButton.addEventListener('click', clickPlaceAddBtn);
+profileEditButton.addEventListener('click', clickProfileEditBtn);
+sectionCardsOfPlaces.renderItems();
+popupEditUserForm.setEventListeners();
+popupNewPlaceForm.setEventListeners();
 
-const cardImage = document.querySelector('#card-image');
-const imgCurrent = cardImage.querySelector('.popup__image');
-
-const buttonCloseList = document.querySelectorAll('.popup__close');
-
-const placeTemplateId = '#template-element';
-
-const createCard = (name, link) => {
-  const card = new Card(name, link, placeTemplateId, clickPicture);
-  return card.generateCard();
+function createCardOfPlace(data, position) {
+  // Если position пропущена или false, то карточка добавляется в конец, иначе - в начало
+  const card = new Card(data, templateCardOfPlaceSelector, handleCardOfPlaceClickImage);
+  sectionCardsOfPlaces.addItem(card.generateCard(), position);
 }
 
-function putElementsFromBox() {
-  elementsInBox.forEach((item) => {
-    elementsSection.append(createCard(item.name, item.link));
-  });
-}
-
-function openPopup(popupCard) {
-  popupCard.classList.add('popup_opened');
-  document.addEventListener('keydown', closeByEsc);
-}
-
-function closePopup(popupCard) {
-  popupCard.classList.remove('popup_opened');
-  document.removeEventListener('keydown', closeByEsc);
-}
-
-function closeByEsc(evt) {
-  if (evt.key === 'Escape') {
-    const openedPopup = document.querySelector('.popup_opened');
-    closePopup(openedPopup);
-  }
-}
-
-function closeClosestPopup(evt) {
-  closePopup(evt.target.closest('.popup'));
+function handleCardOfPlaceClickImage(src, title) {
+  popupCardOfPlace.open(src, title);
 }
 
 function clickPlaceAddBtn() {
-  formPlace.reset();
-  placeValidator.toggleButtonState();
-  placeValidator.clearAllErr();
-  openPopup(cardPlace);
-}
-
-function clickPicture(name, link) {
-  cardImage.querySelector('.popup__title').textContent = name;
-  imgCurrent.src = link;
-  imgCurrent.alt = name;
-  openPopup(cardImage);
+  popupNewPlaceForm.open();
 }
 
 function clickProfileEditBtn() {
-  userValidator.toggleButtonState();
-  userValidator.clearAllErr();
-  inputUserName.value = profileTextAuthor.textContent;
-  inputUserJob.value = profileTextJob.textContent;
-  openPopup(cardUser);
+  const {name, about} = currentUserData.getUserInfo();
+  document.querySelector('#' + inputsUserFormFields.name).value = name;
+  document.querySelector('#' + inputsUserFormFields.about).value = about;
+  popupEditUserForm.open();
 }
 
-function clickPopupOverlay(evt) {
-  if(evt.target.classList.contains('popup')) {
-    closeClosestPopup(evt);
-  }
-}
-
-function handleUserFormSubmit(evt) {
+function handleEditUserFormSubmit(evt, data) {
   evt.preventDefault();
-  profileTextAuthor.textContent = inputUserName.value;
-  profileTextJob.textContent = inputUserJob.value;
-  closePopup(cardUser);
+  currentUserData.setUserInfo({
+    name: data[inputsUserFormFields.name],
+    about: data[inputsUserFormFields.about],
+  });
+  popupEditUserForm.close();
 }
 
-function handlePlaceFormSubmit(evt) {
+function handleNewPlaceFormSubmit(evt, data) {
   evt.preventDefault();
-  elementsSection.prepend(createCard(inputPlaceName.value, inputPlaceLink.value));
-  closePopup(cardPlace);
+  createCardOfPlace({
+    src: data[inputsPlaceFormFields.src],
+    title: data[inputsPlaceFormFields.title],
+  }, true);
+  popupNewPlaceForm.close();
 }
-
-profileEditButton.addEventListener('click', clickProfileEditBtn);
-placeAddButton.addEventListener('click', clickPlaceAddBtn);
-
-formUser.addEventListener('submit', handleUserFormSubmit);
-formPlace.addEventListener('submit', handlePlaceFormSubmit);
-
-buttonCloseList.forEach(btn => {
-  const popup = btn.closest('.popup');
-  popup.addEventListener('mousedown', clickPopupOverlay);
-  btn.addEventListener('click', () => closePopup(popup));
-})
-
-putElementsFromBox();
-const userValidator = new FormValidator(validationConfig, formUser);
-const placeValidator = new FormValidator(validationConfig, formPlace);
-userValidator.enableValidation();
-placeValidator.enableValidation();

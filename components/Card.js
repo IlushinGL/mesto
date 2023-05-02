@@ -1,9 +1,9 @@
-class Card {
-  constructor(text, imageLink, templateSelector, imgClickFunction) {
-    this._text = text;
-    this._link = imageLink;
+export default class Card {
+  constructor({src, title}, templateSelector, handleCardClick) {
+    this._text = title;
+    this._link = src;
     this._templateSelector = templateSelector;
-    this._imgClickFunction = imgClickFunction;
+    this._handleCardClick = handleCardClick;
   }
 
   _getTemplate() {
@@ -24,7 +24,7 @@ class Card {
   }
 
   _handleImageClick() {
-    this._imgClickFunction(this._text, this._link);
+    this._handleCardClick(this._link, this._text);
   }
 
   _setEventListeners() {
