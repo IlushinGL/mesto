@@ -25,8 +25,8 @@ const popupNewPlaceForm = new PopupWithForm(popupNewPlaceFormSelector, handleNew
 const popupEditUserForm = new PopupWithForm(popupEditUserFormSelector, handleEditUserFormSubmit);
 const currentUserData = new UserInfo(currentUserDataSelectors);
 
-placeAddButton.addEventListener('click', clickPlaceAddBtn);
-profileEditButton.addEventListener('click', clickProfileEditBtn);
+placeAddButton.addEventListener('click', handleClickPlaceAddBtn);
+profileEditButton.addEventListener('click', handleClickProfileEditBtn);
 sectionCardsOfPlaces.renderItems();
 popupEditUserForm.setEventListeners();
 popupNewPlaceForm.setEventListeners();
@@ -41,11 +41,11 @@ function handleCardOfPlaceClickImage(src, title) {
   popupCardOfPlace.open(src, title);
 }
 
-function clickPlaceAddBtn() {
+function handleClickPlaceAddBtn() {
   popupNewPlaceForm.open();
 }
 
-function clickProfileEditBtn() {
+function handleClickProfileEditBtn() {
   const {name, about} = currentUserData.getUserInfo();
   document.querySelector('#' + inputsUserFormFields.name).value = name;
   document.querySelector('#' + inputsUserFormFields.about).value = about;
