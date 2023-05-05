@@ -11,8 +11,7 @@
   <meta name="description" content="ЯндексПрактикум практическая работа №7">
   <meta name="keywords" content="портфолио, место">
   <meta name="author" content="Григорий Илюшин">
-  <link rel="stylesheet" href="./pages/index.css">
-  <link rel="shortcut icon" type="image/JPG" href="./images/IGL.jpg">
+  <link rel="shortcut icon" type="image/JPG" href="<%=require('./images/IGL.jpg')%>">
   <title>Место</title>
 </head>
 
@@ -25,7 +24,7 @@
 
     <section class="profile">
       <img class="profile__avatar"
-            src="./images/author.png" alt="автор">
+            src="<%=require('./images/author.png')%>" alt="автор">
       <div class="profile__info">
         <h1 id="profile-text-author" class="profile__title">Л.И. Брежнев</h1>
         <button type="button" class="profile__edit-button"></button>
@@ -133,8 +132,6 @@
       <button type="button" class="elements__element-trash"></button>
     </div>
   </template>
-
-  <script type="module" src="./pages/index.js"></script>
 
 </body>
 

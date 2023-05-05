@@ -1,26 +1,33 @@
+import imageEl01 from '../images/el_1_ussr.jpg';
+import imageEl02 from '../images/el_2_usa.jpg';
+import imageEl03 from '../images/el_3_france.jpg';
+import imageEl04 from '../images/el_4_mountains.jpg';
+import imageEl05 from '../images/el_5_australia.jpg';
+import imageEl06 from '../images/el_6_italy.jpg';
+
 export const placesArray = [
   {
     title: 'Москва 1964. Смоленская площадь',
-    src: './images/el_1_ussr.jpg'
+    src: imageEl01
   },
   {
     title: 'Нью-Йорк. Вид изнутри',
-    src: './images/el_2_usa.jpg'
+    src: imageEl02
   },
   {
     title: 'Париж. Башня Эйфеля',
-    src: './images/el_3_france.jpg'
+    src: imageEl03
   },
   {
     title: 'Где-то в горах',
-    src: './images/el_4_mountains.jpg'
+    src: imageEl04
   },
   {
     title: 'Сидней',
-    src: './images/el_5_australia.jpg'
+    src: imageEl05
   },
   {
     title: 'Флоренция',
-    src: './images/el_6_italy.jpg'
+    src: imageEl06
   }
 ];
