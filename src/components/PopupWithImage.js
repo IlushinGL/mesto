@@ -3,9 +3,8 @@ import Popup from './Popup.js';
 export default class PopupWithImage extends Popup {
   constructor(selector) {
     super(selector);
-    const conteiner = super._getConteiner()
-    this._title = conteiner.querySelector('.popup__title');
-    this._image = conteiner.querySelector('.popup__image');
+    this._title = this._container.querySelector('.popup__title');
+    this._image = this._container.querySelector('.popup__image');
     super.setEventListeners();
   }
 
