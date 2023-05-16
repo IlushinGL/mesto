@@ -7,7 +7,8 @@ import {
   popupEditUserFormSelector,
   currentUserDataSelectors,
   inputsUserFormFields,
-  inputsPlaceFormFields} from '../utils/constants.js';
+  inputsPlaceFormFields,
+  apiData} from '../utils/constants.js';
 import {validateFormConfigObj} from '../utils/validateFormConfigObj.js';
 
 import FormValidator from '../components/FormValidator.js';
@@ -16,6 +17,7 @@ import Card from '../components/Card.js';
 import PopupWithImage from '../components/PopupWithImage.js';
 import PopupWithForm from '../components/PopupWithForm.js';
 import UserInfo from '../components/UserInfo.js';
+import Api from '../components/Api.js';
 
 import './index.css';
 
@@ -24,6 +26,24 @@ const profileEditButton = document.querySelector('.profile__edit-button');
 
 const inputUserName = document.querySelector('#' + inputsUserFormFields.name);
 const inputUserAbout = document.querySelector('#' + inputsUserFormFields.about);
+
+const api = new Api(apiData);
+const dataPlaces = api.getInitialCards();
+// api.getInitialCards()
+//   .then((data) => {
+//     dataPlaces = data.map(function(item) {
+//       return {
+//         title: item.name,
+//         src: item.link
+//       };
+//     });
+//     // const sectionCardsOfPlaces = new Section({items: dataPlaces, renderer: createCardOfPlace}, sectionCardsOfPlacesSelector);
+//   })
+//   .catch((err) => {
+//     console.log(err);
+//   });
+
+console.log('dataPlaces', dataPlaces);
 
 const sectionCardsOfPlaces = new Section({items: placesArray, renderer: createCardOfPlace}, sectionCardsOfPlacesSelector);
 const popupCardOfPlace = new PopupWithImage(popupCardOfPlaceSelector);
