@@ -27,23 +27,28 @@ const profileEditButton = document.querySelector('.profile__edit-button');
 const inputUserName = document.querySelector('#' + inputsUserFormFields.name);
 const inputUserAbout = document.querySelector('#' + inputsUserFormFields.about);
 
-const api = new Api(apiData);
-const dataPlaces = api.getInitialCards();
-// api.getInitialCards()
-//   .then((data) => {
-//     dataPlaces = data.map(function(item) {
-//       return {
-//         title: item.name,
-//         src: item.link
-//       };
-//     });
-//     // const sectionCardsOfPlaces = new Section({items: dataPlaces, renderer: createCardOfPlace}, sectionCardsOfPlacesSelector);
-//   })
-//   .catch((err) => {
-//     console.log(err);
-//   });
+const currentUserData = new UserInfo(currentUserDataSelectors);
 
-console.log('dataPlaces', dataPlaces);
+const api = new Api(apiData);
+const dataPlaces = api.getInitialCards()
+  .then((data) => data)
+  .catch((err) => {
+    console.log(err);
+  });
+
+api.getUserInfo()
+  .then((data) => {
+    currentUserData.setUserInfo({
+      name: data.name,
+      about: data.about});
+    currentUserData.setAvatar(data.avatar);
+    // console.log(data);
+  })
+  .catch((err) => {
+    console.log(err);
+  });
+
+console.log('00_InitialCards', dataPlaces);
 
 const sectionCardsOfPlaces = new Section({items: placesArray, renderer: createCardOfPlace}, sectionCardsOfPlacesSelector);
 const popupCardOfPlace = new PopupWithImage(popupCardOfPlaceSelector);
@@ -63,7 +68,7 @@ const popupEditUserForm = new PopupWithForm(
 const validatorUserForm = new FormValidator(
   validateFormConfigObj,
   popupEditUserForm.getForm());
-const currentUserData = new UserInfo(currentUserDataSelectors);
+
 
 placeAddButton.addEventListener('click', handleClickPlaceAddBtn);
 profileEditButton.addEventListener('click', handleClickProfileEditBtn);

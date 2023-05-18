@@ -1,7 +1,7 @@
 export default class Api {
   constructor({server, cohortId, token, user, avatar, cards, like}) {
-    this._server = server;
-    this._cohortId = cohortId;
+    this._baseURL = server + cohortId;
+    // this._cohortId = cohortId;
     this._token = token;
     this._user = user;
     this._avatar = avatar;
@@ -10,26 +10,41 @@ export default class Api {
   }
 
   getInitialCards() {
-    const host = this._server + this._cohortId + this._cards;
-    return fetch(host, {
+    return fetch(
+      this._baseURL + this._cards,
+      {
       method: 'GET',
       headers: {
         authorization: this._token,
         'Content-Type': 'application/json'
       }
     })
-    .then(res => {
+    .then((res) => {
       if (res.ok) {
         return res.json();
       }
-      return Promise.reject(`Ошибка: ${res.status}`);
+      return Promise.reject(`Err_Api_getInitialCards: ${res.status}-${res.statusText}`);
     })
-    .then(data => {
-      return data;
+    .then((res) => res);
+  }
+
+  getUserInfo() {
+    return fetch(
+      this._baseURL + this._user,
+      {
+      method: 'GET',
+      headers: {
+        authorization: this._token,
+        'Content-Type': 'application/json'
+      }
     })
-    .catch(err => {
-      return err;
-    });
+    .then((res) => {
+      if (res.ok) {
+        return res.json();
+      }
+      return Promise.reject(`Err_Api_getUserInfo: ${res.status}-${res.statusText}`);
+    })
+    .then((res) => res);
   }
 
   // другие методы работы с API
