@@ -1,4 +1,4 @@
-import {placesArray} from '../utils/placesArray.js';
+// import {placesArray} from '../utils/placesArray.js';
 import {
   sectionCardsOfPlacesSelector,
   templateCardOfPlaceSelector,
@@ -28,16 +28,27 @@ const inputUserName = document.querySelector('#' + inputsUserFormFields.name);
 const inputUserAbout = document.querySelector('#' + inputsUserFormFields.about);
 
 const currentUserData = new UserInfo(currentUserDataSelectors);
+const sectionCardsOfPlaces = new Section(sectionCardsOfPlacesSelector, createCardOfPlace);
 
 const api = new Api(apiData);
-const dataPlaces = api.getInitialCards()
-  .then((data) => data)
+const promisePlaces = api.getInitialCards()
+  .then((data) => {
+    const placesArray = data.map((item) => {
+      return {
+        imgId: item._id,
+        title: item.name,
+        src: item.link
+      };
+    });
+    sectionCardsOfPlaces.setItems(placesArray);
+  })
   .catch((err) => {
     console.log(err);
   });
 
-api.getUserInfo()
+const promiseUser = api.getUserInfo()
   .then((data) => {
+    currentUserData.setId(data._id);
     currentUserData.setUserInfo({
       name: data.name,
       about: data.about});
@@ -48,9 +59,9 @@ api.getUserInfo()
     console.log(err);
   });
 
-console.log('00_InitialCards', dataPlaces);
+// console.log('00_InitialCards', dataPlaces);
 
-const sectionCardsOfPlaces = new Section({items: placesArray, renderer: createCardOfPlace}, sectionCardsOfPlacesSelector);
+
 const popupCardOfPlace = new PopupWithImage(popupCardOfPlaceSelector);
 const popupNewPlaceForm = new PopupWithForm(
   popupNewPlaceFormSelector,
@@ -73,7 +84,7 @@ const validatorUserForm = new FormValidator(
 placeAddButton.addEventListener('click', handleClickPlaceAddBtn);
 profileEditButton.addEventListener('click', handleClickProfileEditBtn);
 
-sectionCardsOfPlaces.renderItems();
+// sectionCardsOfPlaces.renderItems();
 
 popupEditUserForm.setEventListeners();
 validatorUserForm.enableValidation();

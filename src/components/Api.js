@@ -1,8 +1,10 @@
 export default class Api {
   constructor({server, cohortId, token, user, avatar, cards, like}) {
     this._baseURL = server + cohortId;
-    // this._cohortId = cohortId;
-    this._token = token;
+    this._auth = {
+      authorization: token,
+      'Content-Type': 'application/json'
+    };
     this._user = user;
     this._avatar = avatar;
     this._cards = cards;
@@ -14,10 +16,7 @@ export default class Api {
       this._baseURL + this._cards,
       {
       method: 'GET',
-      headers: {
-        authorization: this._token,
-        'Content-Type': 'application/json'
-      }
+      headers: this._auth
     })
     .then((res) => {
       if (res.ok) {
@@ -25,7 +24,8 @@ export default class Api {
       }
       return Promise.reject(`Err_Api_getInitialCards: ${res.status}-${res.statusText}`);
     })
-    .then((res) => res);
+    // .then((res) => res);
+    .catch((err) => err);
   }
 
   getUserInfo() {
@@ -33,10 +33,7 @@ export default class Api {
       this._baseURL + this._user,
       {
       method: 'GET',
-      headers: {
-        authorization: this._token,
-        'Content-Type': 'application/json'
-      }
+      headers: this._auth
     })
     .then((res) => {
       if (res.ok) {
@@ -44,7 +41,8 @@ export default class Api {
       }
       return Promise.reject(`Err_Api_getUserInfo: ${res.status}-${res.statusText}`);
     })
-    .then((res) => res);
+    // .then((res) => res)
+    .catch((err) => err);
   }
 
   // другие методы работы с API
