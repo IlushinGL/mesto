@@ -4,6 +4,7 @@ export const popupCardOfPlaceSelector = '#card-image';
 export const popupNewPlaceFormSelector = '#card-place';
 export const popupEditUserFormSelector = '#card-user';
 export const popupUserAvatarFormSelector = '#card-user-avatar';
+export const popupDeleteFormSelector = '#card-delete';
 export const currentUserDataSelectors = {
   selectorAvatar: '#profile-avatar',
   selectorName: '#profile-text-author',

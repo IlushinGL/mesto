@@ -1,4 +1,3 @@
-// import {placesArray} from '../utils/placesArray.js';
 import {
   sectionCardsOfPlacesSelector,
   templateCardOfPlaceSelector,
@@ -10,6 +9,7 @@ import {
   inputsPlaceFormFields,
   popupUserAvatarFormSelector,
   inputsUserAvatarFormFields,
+  popupDeleteFormSelector,
   apiData} from '../utils/constants.js';
 import {validateFormConfigObj} from '../utils/validateFormConfigObj.js';
 
@@ -34,6 +34,12 @@ const currentUserData = new UserInfo(currentUserDataSelectors);
 const sectionCardsOfPlaces = new Section(sectionCardsOfPlacesSelector, createCardOfPlace);
 
 const popupCardOfPlace = new PopupWithImage(popupCardOfPlaceSelector);
+
+const popupDeleteForm = new PopupWithForm(
+  popupDeleteFormSelector,
+  validateFormConfigObj.formSelector,
+  validateFormConfigObj.inputSelector,
+  handleDeleteFormSubmit);
 
 const popupNewPlaceForm = new PopupWithForm(
   popupNewPlaceFormSelector,
@@ -74,6 +80,8 @@ validatorPlaceForm.enableValidation();
 
 popupUserAvatarForm.setEventListeners();
 validatorUserAvatarForm.enableValidation();
+
+popupDeleteForm.setEventListeners();
 
 const api = new Api(apiData);
 api.getInitialCards()
@@ -117,6 +125,11 @@ function createCardOfPlace(data, position) {
 
 // обработка удаления карточки
 function handleCardDelete(card) {
+  popupDeleteForm.data = card;
+  popupDeleteForm.open();
+}
+function handleDeleteFormSubmit(evt, card) {
+  evt.preventDefault();
   api.deleteCard(card.cardId)
   .then(() => {
     card.removeCard();
@@ -125,6 +138,7 @@ function handleCardDelete(card) {
   .catch((err) => {
     console.log(err);
   })
+  popupDeleteForm.close();
 }
 
 // обработка лайка карточки
@@ -154,12 +168,12 @@ function handleUserAvatarFormSubmit(evt, data) {
   const inData = data[inputsUserAvatarFormFields.src]
   api.setUserAvatar(inData)
   .then((outData) => {
-    currentUserData.setAvatar(outData.avatar)
-    popupUserAvatarForm.close();
+    currentUserData.setAvatar(outData.avatar);
   })
   .catch((err) => {
     console.log(err);
   })
+  popupUserAvatarForm.close();
 }
 
 // обработка формы изменения данных профиля
@@ -180,11 +194,11 @@ function handleEditUserFormSubmit(evt, data) {
   api.setUserInfo(inData)
   .then((outData) => {
     currentUserData.setUserInfo(outData);
-    popupEditUserForm.close();
   })
   .catch((err) => {
     console.log(err);
   })
+  popupEditUserForm.close();
 }
 
 // обработка формы добавления нового места
@@ -202,9 +216,9 @@ function handleNewPlaceFormSubmit(evt, data) {
   api.addNewCard(inData)
   .then((outData) => {
     createCardOfPlace(placeData(outData), true);
-    popupNewPlaceForm.close();
   })
   .catch((err) => {
     console.log(err);
   })
+  popupNewPlaceForm.close();
 }
