@@ -24,4 +24,5 @@ export default class UserInfo {
   setId(id) {
     this.id = id;
   }
+
 }

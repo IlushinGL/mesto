@@ -1,9 +1,22 @@
+import imageHeartYes from '../images/heart_yes.svg';
+import imageHeartNo from '../images/heart_no.svg';
+
 export default class Card {
-  constructor({src, title}, templateSelector, handleCardClick) {
+  constructor(
+    {src, title, cardId, ownerId, likes},
+    templateSelector,
+    handleCardClick,
+    handleCardDelete,
+    handleCardLike) {
     this._text = title;
     this._link = src;
+    this.cardId = cardId;
+    this._ownerId = ownerId;
+    this._likes = likes;
     this._templateSelector = templateSelector;
     this._handleCardClick = handleCardClick;
+    this._handleCardDelete = handleCardDelete;
+    this._handleCardLike = handleCardLike;
   }
 
   _getTemplate() {
@@ -16,12 +29,11 @@ export default class Card {
   }
 
   _handleLikeClick() {
-    this._like.classList.toggle('elements__element-favour_yes');
+    this._handleCardLike(this, this._isLiked());
   }
 
   _handleTrashClick() {
-    this._element.remove();
-    this._element = null;
+    this._handleCardDelete(this);
   }
 
   _handleImageClick() {
@@ -34,16 +46,48 @@ export default class Card {
     this._image.addEventListener('click', () => this._handleImageClick());
   }
 
-  generateCard() {
-    this._element = this._getTemplate();
-    this._like = this._element.querySelector('.elements__element-favour');
-    this._trash = this._element.querySelector('.elements__element-trash');
-    this._image = this._element.querySelector('.elements__element-img');
+  _isLiked() {
+    return this._likes.includes(this._userId);
+  }
 
+  _setInfo() {
+    this._like.querySelector('.likes').textContent = this._likes.length;
+    const icon = this._like.querySelector('.icon');
+    if (this._isLiked()) {
+      icon.src = imageHeartYes;
+      icon.alt = 'yes';
+    } else {
+      icon.src = imageHeartNo;
+      icon.alt = 'no';
+    }
+  }
+
+  removeCard() {
+    this._element.remove();
+    this._element = null;
+  }
+
+  updateCard(likes) {
+    this._likes = likes;
+    this._setInfo();
+  }
+
+  generateCard(userId) {
+    this._userId = userId;
+    this._element = this._getTemplate();
+
+    this._trash = this._element.querySelector('.elements__element-trash');
+    if (!(this._userId === this._ownerId)) {
+      this._trash.classList.add('elements__element-trash_hidden');
+    }
+
+    this._image = this._element.querySelector('.elements__element-img');
     this._image.src = this._link;
     this._image.alt = this._text;
     this._element.querySelector('.elements__element-text').textContent = this._text;
 
+    this._like = this._element.querySelector('.elements__element-favour');
+    this._setInfo();
     this._setEventListeners();
 
     return this._element;

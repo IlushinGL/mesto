@@ -23,8 +23,8 @@
 @import url(../blocks/elements/__element-caption/elements__element-caption.css);
 @import url(../blocks/elements/__element-text/elements__element-text.css);
 @import url(../blocks/elements/__element-favour/elements__element-favour.css);
-@import url(../blocks/elements/__element-favour/_yes/elements__element-favour_yes.css);
 @import url(../blocks/elements/__element-trash/elements__element-trash.css);
+@import url(../blocks/elements/__element-trash/_hidden/elements__element-trash_hidden.css);
 
 @import url(../blocks/footer/footer.css);
 @import url(../blocks/footer/__copyright/footer__copyright.css);

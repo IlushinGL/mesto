@@ -34,11 +34,7 @@ const api = new Api(apiData);
 const promisePlaces = api.getInitialCards()
   .then((data) => {
     const placesArray = data.map((item) => {
-      return {
-        imgId: item._id,
-        title: item.name,
-        src: item.link
-      };
+      return placeData(item);
     });
     sectionCardsOfPlaces.setItems(placesArray);
   })
@@ -53,13 +49,10 @@ const promiseUser = api.getUserInfo()
       name: data.name,
       about: data.about});
     currentUserData.setAvatar(data.avatar);
-    // console.log(data);
   })
   .catch((err) => {
     console.log(err);
   });
-
-// console.log('00_InitialCards', dataPlaces);
 
 
 const popupCardOfPlace = new PopupWithImage(popupCardOfPlaceSelector);
@@ -84,22 +77,51 @@ const validatorUserForm = new FormValidator(
 placeAddButton.addEventListener('click', handleClickPlaceAddBtn);
 profileEditButton.addEventListener('click', handleClickProfileEditBtn);
 
-// sectionCardsOfPlaces.renderItems();
-
 popupEditUserForm.setEventListeners();
 validatorUserForm.enableValidation();
 
 popupNewPlaceForm.setEventListeners();
 validatorPlaceForm.enableValidation();
 
+function placeData(item) {
+  return {
+    cardId: item._id,
+    ownerId: item.owner._id,
+    title: item.name,
+    src: item.link,
+    likes: item.likes.map(like => like._id)
+  };
+}
+
 function createCardOfPlace(data, position) {
   // Если position пропущена или false, то карточка добавляется в конец, иначе - в начало
-  const card = new Card(data, templateCardOfPlaceSelector, handleCardOfPlaceClickImage);
-  sectionCardsOfPlaces.addItem(card.generateCard(), position);
+  const card = new Card(data, templateCardOfPlaceSelector, handleCardOfPlaceClickImage, handleCardDelete, handleCardLike);
+  sectionCardsOfPlaces.addItem(card.generateCard(currentUserData.id), position);
 }
 
 function handleCardOfPlaceClickImage(src, title) {
   popupCardOfPlace.open(src, title);
+}
+
+function handleCardDelete(card) {
+  api.deleteCard(card.cardId)
+  .then(() => {
+    card.removeCard();
+    card = null;
+  })
+  .catch((err) => {
+    console.log(err);
+  })
+}
+
+function handleCardLike(card, like) {
+  api.likeCard(card.cardId, !like)
+  .then((data) => {
+    card.updateCard(data.likes.map(like => like._id));
+  })
+  .catch((err) => {
+    console.log(err);
+  })
 }
 
 function handleClickPlaceAddBtn() {
@@ -119,18 +141,32 @@ function handleClickProfileEditBtn() {
 
 function handleEditUserFormSubmit(evt, data) {
   evt.preventDefault();
-  currentUserData.setUserInfo({
+  const inData = {
     name: data[inputsUserFormFields.name],
     about: data[inputsUserFormFields.about],
-  });
-  popupEditUserForm.close();
+  };
+  api.setUserInfo(inData)
+  .then((outData) => {
+    currentUserData.setUserInfo(outData);
+    popupEditUserForm.close();
+  })
+  .catch((err) => {
+    console.log(err);
+  })
 }
 
 function handleNewPlaceFormSubmit(evt, data) {
   evt.preventDefault();
-  createCardOfPlace({
-    src: data[inputsPlaceFormFields.src],
-    title: data[inputsPlaceFormFields.title],
-  }, true);
-  popupNewPlaceForm.close();
+  const inData = {
+    link: data[inputsPlaceFormFields.src],
+    name: data[inputsPlaceFormFields.title],
+  };
+  api.addNewCard(inData)
+  .then((outData) => {
+    createCardOfPlace(placeData(outData), true);
+    popupNewPlaceForm.close();
+  })
+  .catch((err) => {
+    console.log(err);
+  })
 }

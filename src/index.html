@@ -73,6 +73,7 @@
               name="input-img-link"
               type="url"
               placeholder="Ссылка на картинку"
+              autocomplete="off"
               class="popup__input-text"
               required>
         <span class="input-img-link-error popup__input-error"></span>
@@ -127,7 +128,10 @@
             src="./images/template.png" alt="шаблон элемента">
       <div class="elements__element-caption">
         <h2 class="elements__element-text">шаблон элемента</h2>
-        <button type="button" class="elements__element-favour"></button>
+        <button type="button" class="elements__element-favour">
+          <img class="icon" src="..." alt="no">
+          <div class="likes">0</div>
+        </button>
       </div>
       <button type="button" class="elements__element-trash"></button>
     </div>
