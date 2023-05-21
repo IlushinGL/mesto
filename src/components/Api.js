@@ -93,4 +93,17 @@ export default class Api {
     .catch((err) => err);
   }
 
+  setUserAvatar(link) {
+    return fetch(
+      this._baseURL + this._user + this._avatar,
+      {
+      method: 'PATCH',
+      headers: this._auth,
+      body: JSON.stringify({
+        avatar: link
+      })
+    })
+    .then((res) => {return this._handleResponse(res, 'setUserInfo')})
+    .catch((err) => err);
+  }
 }

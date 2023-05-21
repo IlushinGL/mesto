@@ -3,6 +3,7 @@ export const templateCardOfPlaceSelector = '#template-element';
 export const popupCardOfPlaceSelector = '#card-image';
 export const popupNewPlaceFormSelector = '#card-place';
 export const popupEditUserFormSelector = '#card-user';
+export const popupUserAvatarFormSelector = '#card-user-avatar';
 export const currentUserDataSelectors = {
   selectorAvatar: '#profile-avatar',
   selectorName: '#profile-text-author',
@@ -16,7 +17,9 @@ export const inputsPlaceFormFields = {
   title: 'input-place-name',
   src: 'input-img-link',
 };
-
+export const inputsUserAvatarFormFields = {
+  src: 'input-avatar-link',
+};
 export const apiData = {
   server: 'https://mesto.nomoreparties.co/v1/',
   cohortId: 'cohort-66',

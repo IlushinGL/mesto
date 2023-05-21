@@ -23,12 +23,14 @@
   <main class="content">
 
     <section class="profile">
-      <img id="profile-avatar" class="profile__avatar"
-            src="<%=require('./images/author.png')%>" alt="аватар">
+      <div class="profile__avatar">
+        <img id="profile-avatar" class="profile__avatar_img" src="<%=require('./images/plus.png')%>" alt="аватар">
+      </div>
+
       <div class="profile__info">
-        <h1 id="profile-text-author" class="profile__title">Л.И. Брежнев</h1>
+        <h1 id="profile-text-author" class="profile__title">...</h1>
         <button type="button" class="profile__edit-button"></button>
-        <p id="profile-text-job" class="profile__subtitle">ГенСек КомПартии СССР 19(66-82)гг. Эпоха Застоя</p>
+        <p id="profile-text-job" class="profile__subtitle">...</p>
       </div>
       <button type="button" class="profile__add-button"></button>
     </section>
@@ -81,6 +83,29 @@
               type="submit"
               class="popup__submit-btn">
           Создать
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <div id="card-user-avatar" class="popup">
+    <div class="popup__conteiner">
+      <button type="button" class="popup__close"></button>
+      <h2 class="popup__title">Обновить аватар</h2>
+      <form class="popup-form" id="form-user-avatar" name="form-user-avatar" novalidate>
+        <input
+              id="input-avatar-link"
+              name="input-avatar-link"
+              type="url"
+              placeholder="Ссылка на картинку"
+              autocomplete="off"
+              class="popup__input-text"
+              required>
+        <span class="input-avatar-link-error popup__input-error"></span>
+        <button
+              type="submit"
+              class="popup__submit-btn">
+          Сохранить
         </button>
       </form>
     </div>
