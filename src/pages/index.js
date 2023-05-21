@@ -68,6 +68,11 @@ const validatorUserAvatarForm = new FormValidator(
   validateFormConfigObj,
   popupUserAvatarForm.getForm());
 
+const butnProfileSubmit = popupEditUserForm.getForm().querySelector(validateFormConfigObj.submitButtonSelector);
+const butnNewPlaceSubmit = popupNewPlaceForm.getForm().querySelector(validateFormConfigObj.submitButtonSelector);
+const butnAvatarSubmit = popupUserAvatarForm.getForm().querySelector(validateFormConfigObj.submitButtonSelector);
+const butnDeleteSubmit = popupDeleteForm.getForm().querySelector(validateFormConfigObj.submitButtonSelector);
+
 profileAvatar.addEventListener('click', handleAvatarClick);
 profileEditButton.addEventListener('click', handleClickProfileEditBtn);
 placeAddButton.addEventListener('click', handleClickPlaceAddBtn);
@@ -126,19 +131,21 @@ function createCardOfPlace(data, position) {
 // обработка удаления карточки
 function handleCardDelete(card) {
   popupDeleteForm.data = card;
+  butnDeleteSubmit.textContent = 'Да';
   popupDeleteForm.open();
 }
 function handleDeleteFormSubmit(evt, card) {
   evt.preventDefault();
+  butnDeleteSubmit.textContent = 'Удаление...';
   api.deleteCard(card.cardId)
   .then(() => {
     card.removeCard();
     card = null;
+    popupDeleteForm.close();
   })
   .catch((err) => {
     console.log(err);
   })
-  popupDeleteForm.close();
 }
 
 // обработка лайка карточки
@@ -161,19 +168,21 @@ function handleCardOfPlaceClickImage(src, title) {
 function handleAvatarClick() {
   validatorUserAvatarForm.clearAllErr();
   validatorUserAvatarForm.toggleButtonState();
+  butnAvatarSubmit.textContent = 'Сохранить';
   popupUserAvatarForm.open();
 }
 function handleUserAvatarFormSubmit(evt, data) {
   evt.preventDefault();
+  butnAvatarSubmit.textContent = 'Сохранение...';
   const inData = data[inputsUserAvatarFormFields.src]
   api.setUserAvatar(inData)
   .then((outData) => {
     currentUserData.setAvatar(outData.avatar);
+    popupUserAvatarForm.close();
   })
   .catch((err) => {
     console.log(err);
   })
-  popupUserAvatarForm.close();
 }
 
 // обработка формы изменения данных профиля
@@ -183,10 +192,12 @@ function handleClickProfileEditBtn() {
   inputUserAbout.value = about;
   validatorUserForm.clearAllErr();
   validatorUserForm.toggleButtonState();
+  butnProfileSubmit.textContent = 'Сохранить';
   popupEditUserForm.open();
 }
 function handleEditUserFormSubmit(evt, data) {
   evt.preventDefault();
+  butnProfileSubmit.textContent = 'Сохранение...';
   const inData = {
     name: data[inputsUserFormFields.name],
     about: data[inputsUserFormFields.about],
@@ -194,21 +205,23 @@ function handleEditUserFormSubmit(evt, data) {
   api.setUserInfo(inData)
   .then((outData) => {
     currentUserData.setUserInfo(outData);
+    popupEditUserForm.close();
   })
   .catch((err) => {
     console.log(err);
   })
-  popupEditUserForm.close();
 }
 
 // обработка формы добавления нового места
 function handleClickPlaceAddBtn() {
   validatorPlaceForm.clearAllErr();
   validatorPlaceForm.toggleButtonState();
+  butnNewPlaceSubmit.textContent = 'Создать'
   popupNewPlaceForm.open();
 }
 function handleNewPlaceFormSubmit(evt, data) {
   evt.preventDefault();
+  butnNewPlaceSubmit.textContent = 'Добавление...';
   const inData = {
     link: data[inputsPlaceFormFields.src],
     name: data[inputsPlaceFormFields.title],
@@ -216,9 +229,10 @@ function handleNewPlaceFormSubmit(evt, data) {
   api.addNewCard(inData)
   .then((outData) => {
     createCardOfPlace(placeData(outData), true);
+    popupNewPlaceForm.close();
+    ;
   })
   .catch((err) => {
     console.log(err);
   })
-  popupNewPlaceForm.close();
 }
