@@ -131,7 +131,6 @@ function createCardOfPlace(data, position) {
 // обработка удаления карточки
 function handleCardDelete(card) {
   popupDeleteForm.data = card;
-  butnDeleteSubmit.textContent = 'Да';
   popupDeleteForm.open();
 }
 function handleDeleteFormSubmit(evt, card) {
@@ -145,6 +144,9 @@ function handleDeleteFormSubmit(evt, card) {
   })
   .catch((err) => {
     console.log(err);
+  })
+  .finally(() => {
+    butnDeleteSubmit.textContent = 'Да';
   })
 }
 
@@ -168,7 +170,6 @@ function handleCardOfPlaceClickImage(src, title) {
 function handleAvatarClick() {
   validatorUserAvatarForm.clearAllErr();
   validatorUserAvatarForm.toggleButtonState();
-  butnAvatarSubmit.textContent = 'Сохранить';
   popupUserAvatarForm.open();
 }
 function handleUserAvatarFormSubmit(evt, data) {
@@ -183,6 +184,9 @@ function handleUserAvatarFormSubmit(evt, data) {
   .catch((err) => {
     console.log(err);
   })
+  .finally(() => {
+    butnAvatarSubmit.textContent = 'Сохранить';
+  })
 }
 
 // обработка формы изменения данных профиля
@@ -192,7 +196,6 @@ function handleClickProfileEditBtn() {
   inputUserAbout.value = about;
   validatorUserForm.clearAllErr();
   validatorUserForm.toggleButtonState();
-  butnProfileSubmit.textContent = 'Сохранить';
   popupEditUserForm.open();
 }
 function handleEditUserFormSubmit(evt, data) {
@@ -210,13 +213,15 @@ function handleEditUserFormSubmit(evt, data) {
   .catch((err) => {
     console.log(err);
   })
+  .finally(() => {
+    butnProfileSubmit.textContent = 'Сохранить';
+  })
 }
 
 // обработка формы добавления нового места
 function handleClickPlaceAddBtn() {
   validatorPlaceForm.clearAllErr();
   validatorPlaceForm.toggleButtonState();
-  butnNewPlaceSubmit.textContent = 'Создать'
   popupNewPlaceForm.open();
 }
 function handleNewPlaceFormSubmit(evt, data) {
@@ -234,5 +239,8 @@ function handleNewPlaceFormSubmit(evt, data) {
   })
   .catch((err) => {
     console.log(err);
+  })
+  .finally(() => {
+    butnNewPlaceSubmit.textContent = 'Создать'
   })
 }

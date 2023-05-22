@@ -14,9 +14,8 @@ export default class Section {
   }
 
   setItems(array) {
-    this._initialArray = array;
     this._container.innerHTML = '';
-    this._initialArray.forEach(item => {
+    array.forEach(item => {
       this._renderer(item);
     });
   }

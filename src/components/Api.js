@@ -1,5 +1,7 @@
 export default class Api {
   constructor({server, cohortId, token, user, avatar, cards, like}) {
+    // на вход поступает один объект с указанными  ключами, значения которых
+    // используются для конструирования запросов к серверу
     this._baseURL = server + cohortId;
     this._auth = {
       authorization: token,
@@ -25,8 +27,8 @@ export default class Api {
       method: 'GET',
       headers: this._auth
     })
-    .then((res) => {return this._handleResponse(res, 'getInitialCards')})
-    .catch((err) => err);
+    .then((res) => {return this._handleResponse(res, 'getInitialCards')});
+    // .catch((err) => err);
   }
 
   getUserInfo() {
@@ -36,8 +38,8 @@ export default class Api {
       method: 'GET',
       headers: this._auth
     })
-    .then((res) => {return this._handleResponse(res, 'getUserInfo')})
-    .catch((err) => err);
+    .then((res) => {return this._handleResponse(res, 'getUserInfo')});
+    // .catch((err) => err);
   }
 
   setUserInfo({name, about}) {
@@ -51,8 +53,8 @@ export default class Api {
         about: about
       })
     })
-    .then((res) => {return this._handleResponse(res, 'setUserInfo')})
-    .catch((err) => err);
+    .then((res) => {return this._handleResponse(res, 'setUserInfo')});
+    // .catch((err) => err);
   }
 
   addNewCard({link, name}) {
@@ -66,8 +68,8 @@ export default class Api {
         link: link
       })
     })
-    .then((res) => {return this._handleResponse(res, 'addNewCard')})
-    .catch((err) => err);
+    .then((res) => {return this._handleResponse(res, 'addNewCard')});
+    // .catch((err) => err);
   }
 
   deleteCard(id) {
@@ -77,8 +79,8 @@ export default class Api {
       method: 'DELETE',
       headers: this._auth
     })
-    .then((res) => {return this._handleResponse(res, 'deleteCard')})
-    .catch((err) => err);
+    .then((res) => {return this._handleResponse(res, 'deleteCard')});
+    // .catch((err) => err);
   }
 
   likeCard(id, like) {
@@ -89,8 +91,8 @@ export default class Api {
       method: like ? 'PUT' : 'DELETE',
       headers: this._auth
     })
-    .then((res) => {return this._handleResponse(res, like ? 'likeCard_yes' : 'likeCard_no')})
-    .catch((err) => err);
+    .then((res) => {return this._handleResponse(res, like ? 'likeCard_yes' : 'likeCard_no')});
+    // .catch((err) => err);
   }
 
   setUserAvatar(link) {
@@ -103,7 +105,7 @@ export default class Api {
         avatar: link
       })
     })
-    .then((res) => {return this._handleResponse(res, 'setUserInfo')})
-    .catch((err) => err);
+    .then((res) => {return this._handleResponse(res, 'setUserInfo')});
+    // .catch((err) => err);
   }
 }
