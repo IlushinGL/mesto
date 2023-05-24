@@ -1,7 +1,7 @@
 export default class FormValidator {
   constructor(config, form) {
     this._config = config;
-    this._form = form;
+    this._form = form.getForm();
     this._inputList = Array.from(this._form.querySelectorAll(this._config.inputSelector));
     this._buttonElement = this._form.querySelector(this._config.submitButtonSelector);
   }
@@ -60,5 +60,17 @@ export default class FormValidator {
       this._buttonElement.classList.remove(this._config.inactiveButtonClass);
       this._buttonElement.disabled = false;
     }
+  }
+
+  getInputValues() {
+    const inputValues = {};
+    this._inputList.forEach(input => {
+      inputValues[input.name] = input.value;
+    });
+    return inputValues;
+  }
+
+  getSubmitButn() {
+    return this._buttonElement
   }
 }

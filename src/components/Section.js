@@ -1,22 +1,15 @@
 export default class Section {
-  constructor(selector, renderer) {
-
-    this._renderer = renderer;
+  constructor(selector) {
     this._container = document.querySelector(selector);
+    this._container.innerHTML = '';
   }
 
   addItem(element, isFirst) {
+    // Если isFirst пропущен или false, то карточка добавляется в конец, иначе - в начало
     if (isFirst) {
       this._container.prepend(element);
     } else {
       this._container.append(element);
     }
-  }
-
-  setItems(array) {
-    this._container.innerHTML = '';
-    array.forEach(item => {
-      this._renderer(item);
-    });
   }
 }

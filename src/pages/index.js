@@ -18,6 +18,7 @@ import Section from '../components/Section.js';
 import Card from '../components/Card.js';
 import PopupWithImage from '../components/PopupWithImage.js';
 import PopupWithForm from '../components/PopupWithForm.js';
+import PopupWithConfirmation from '../components/PopupWithConfirmation.js';
 import UserInfo from '../components/UserInfo.js';
 import Api from '../components/Api.js';
 
@@ -31,47 +32,42 @@ const inputUserName = document.querySelector('#' + inputsUserFormFields.name);
 const inputUserAbout = document.querySelector('#' + inputsUserFormFields.about);
 
 const currentUserData = new UserInfo(currentUserDataSelectors);
-const sectionCardsOfPlaces = new Section(sectionCardsOfPlacesSelector, createCardOfPlace);
+const sectionCardsOfPlaces = new Section(sectionCardsOfPlacesSelector);
 
 const popupCardOfPlace = new PopupWithImage(popupCardOfPlaceSelector);
 
-const popupDeleteForm = new PopupWithForm(
+const popupDeleteForm = new PopupWithConfirmation(
   popupDeleteFormSelector,
-  validateFormConfigObj.formSelector,
-  validateFormConfigObj.inputSelector,
   handleDeleteFormSubmit);
+const validatorDeleteForm = new FormValidator(
+  validateFormConfigObj,
+  popupDeleteForm);
 
 const popupNewPlaceForm = new PopupWithForm(
   popupNewPlaceFormSelector,
-  validateFormConfigObj.formSelector,
-  validateFormConfigObj.inputSelector,
   handleNewPlaceFormSubmit);
 const validatorPlaceForm = new FormValidator(
   validateFormConfigObj,
-  popupNewPlaceForm.getForm());
+  popupNewPlaceForm);
 
 const popupEditUserForm = new PopupWithForm(
   popupEditUserFormSelector,
-  validateFormConfigObj.formSelector,
-  validateFormConfigObj.inputSelector,
   handleEditUserFormSubmit);
 const validatorUserForm = new FormValidator(
   validateFormConfigObj,
-  popupEditUserForm.getForm());
+  popupEditUserForm);
 
 const popupUserAvatarForm = new PopupWithForm(
   popupUserAvatarFormSelector,
-  validateFormConfigObj.formSelector,
-  validateFormConfigObj.inputSelector,
   handleUserAvatarFormSubmit);
 const validatorUserAvatarForm = new FormValidator(
   validateFormConfigObj,
-  popupUserAvatarForm.getForm());
+  popupUserAvatarForm);
 
-const butnProfileSubmit = popupEditUserForm.getForm().querySelector(validateFormConfigObj.submitButtonSelector);
-const butnNewPlaceSubmit = popupNewPlaceForm.getForm().querySelector(validateFormConfigObj.submitButtonSelector);
-const butnAvatarSubmit = popupUserAvatarForm.getForm().querySelector(validateFormConfigObj.submitButtonSelector);
-const butnDeleteSubmit = popupDeleteForm.getForm().querySelector(validateFormConfigObj.submitButtonSelector);
+const butnProfileSubmit = validatorUserForm.getSubmitButn();
+const butnNewPlaceSubmit = validatorPlaceForm.getSubmitButn();
+const butnAvatarSubmit = validatorUserAvatarForm.getSubmitButn();
+const butnDeleteSubmit = validatorDeleteForm.getSubmitButn();
 
 profileAvatar.addEventListener('click', handleAvatarClick);
 profileEditButton.addEventListener('click', handleClickProfileEditBtn);
@@ -86,29 +82,31 @@ validatorPlaceForm.enableValidation();
 popupUserAvatarForm.setEventListeners();
 validatorUserAvatarForm.enableValidation();
 
+popupCardOfPlace.setEventListeners();
+
 popupDeleteForm.setEventListeners();
 
 const api = new Api(apiData);
-api.getInitialCards()
-  .then((data) => {
-    const placesArray = data.map((item) => placeData(item));
-    sectionCardsOfPlaces.setItems(placesArray);
-  })
-  .catch((err) => {
-    console.log(err);
-  });
+Promise.all([
+  api.getUserInfo(),
+  api.getInitialCards()
+])
+.then(([info, initialCards])=>{
+  currentUserData.setId(info._id);
+  currentUserData.setUserInfo({
+    name: info.name,
+    about: info.about});
+  currentUserData.setAvatar(info.avatar);
 
-api.getUserInfo()
-  .then((data) => {
-    currentUserData.setId(data._id);
-    currentUserData.setUserInfo({
-      name: data.name,
-      about: data.about});
-    currentUserData.setAvatar(data.avatar);
-  })
-  .catch((err) => {
-    console.log(err);
+  const placesArray = initialCards.map((item) => placeData(item));
+  placesArray.forEach(element => {
+    sectionCardsOfPlaces.addItem(createCard(element));
   });
+})
+.catch((err)=>{
+  console.log(err);
+})
+
 
 // парсинг данных карточки
 function placeData(item) {
@@ -117,29 +115,29 @@ function placeData(item) {
     ownerId: item.owner._id,
     title: item.name,
     src: item.link,
-    likes: item.likes.map(like => like._id)
+    likes: item.likes.map(like => like._id),
+    userId: currentUserData.getId()
   };
 }
 
-// вывод карточки на экран
-function createCardOfPlace(data, position) {
-  // Если position пропущена или false, то карточка добавляется в конец, иначе - в начало
+// создание карточки
+function createCard(data) {
   const card = new Card(data, templateCardOfPlaceSelector, handleCardOfPlaceClickImage, handleCardDelete, handleCardLike);
-  sectionCardsOfPlaces.addItem(card.generateCard(currentUserData.id), position);
+  return card.generateCard();
 }
 
 // обработка удаления карточки
 function handleCardDelete(card) {
-  popupDeleteForm.data = card;
+  popupDeleteForm.setData(card);
   popupDeleteForm.open();
 }
-function handleDeleteFormSubmit(evt, card) {
+function handleDeleteFormSubmit(evt) {
   evt.preventDefault();
-  butnDeleteSubmit.textContent = 'Удаление...';
-  api.deleteCard(card.cardId)
+  butnDeleteSubmit.textContent = 'Удаление...'; // кнопка из валидатора
+  const card = popupDeleteForm.getData(); // инстанс из публичного метода
+  api.deleteCard(card.getId())
   .then(() => {
-    card.removeCard();
-    card = null;
+    card.removeCard(); // удаляем изображение
     popupDeleteForm.close();
   })
   .catch((err) => {
@@ -152,7 +150,7 @@ function handleDeleteFormSubmit(evt, card) {
 
 // обработка лайка карточки
 function handleCardLike(card, like) {
-  api.likeCard(card.cardId, !like)
+  api.likeCard(card.getId(), !like)
   .then((data) => {
     card.updateCard(data.likes.map(like => like._id));
   })
@@ -172,9 +170,10 @@ function handleAvatarClick() {
   validatorUserAvatarForm.toggleButtonState();
   popupUserAvatarForm.open();
 }
-function handleUserAvatarFormSubmit(evt, data) {
+function handleUserAvatarFormSubmit(evt) {
   evt.preventDefault();
   butnAvatarSubmit.textContent = 'Сохранение...';
+  const data = validatorUserForm.getInputValues();
   const inData = data[inputsUserAvatarFormFields.src]
   api.setUserAvatar(inData)
   .then((outData) => {
@@ -198,13 +197,15 @@ function handleClickProfileEditBtn() {
   validatorUserForm.toggleButtonState();
   popupEditUserForm.open();
 }
-function handleEditUserFormSubmit(evt, data) {
+function handleEditUserFormSubmit(evt) {
   evt.preventDefault();
   butnProfileSubmit.textContent = 'Сохранение...';
+  const data = validatorUserForm.getInputValues();
   const inData = {
     name: data[inputsUserFormFields.name],
     about: data[inputsUserFormFields.about],
   };
+
   api.setUserInfo(inData)
   .then((outData) => {
     currentUserData.setUserInfo(outData);
@@ -224,16 +225,17 @@ function handleClickPlaceAddBtn() {
   validatorPlaceForm.toggleButtonState();
   popupNewPlaceForm.open();
 }
-function handleNewPlaceFormSubmit(evt, data) {
+function handleNewPlaceFormSubmit(evt) {
   evt.preventDefault();
   butnNewPlaceSubmit.textContent = 'Добавление...';
+  const data = validatorPlaceForm.getInputValues();
   const inData = {
     link: data[inputsPlaceFormFields.src],
     name: data[inputsPlaceFormFields.title],
   };
   api.addNewCard(inData)
   .then((outData) => {
-    createCardOfPlace(placeData(outData), true);
+    sectionCardsOfPlaces.addItem(createCard(placeData(outData)), true);
     popupNewPlaceForm.close();
     ;
   })

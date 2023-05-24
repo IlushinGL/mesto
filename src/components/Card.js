@@ -3,16 +3,17 @@ import imageHeartNo from '../images/heart_no.svg';
 
 export default class Card {
   constructor(
-    {src, title, cardId, ownerId, likes},
+    {src, title, cardId, ownerId, likes, userId},
     templateSelector,
     handleCardClick,
     handleCardDelete,
     handleCardLike) {
     this._text = title;
     this._link = src;
-    this.cardId = cardId;
+    this._cardId = cardId;
     this._ownerId = ownerId;
     this._likes = likes;
+    this._userId = userId;
     this._templateSelector = templateSelector;
     this._handleCardClick = handleCardClick;
     this._handleCardDelete = handleCardDelete;
@@ -72,8 +73,7 @@ export default class Card {
     this._setInfo();
   }
 
-  generateCard(userId) {
-    this._userId = userId;
+  generateCard() {
     this._element = this._getTemplate();
 
     this._trash = this._element.querySelector('.elements__element-trash');
@@ -91,5 +91,9 @@ export default class Card {
     this._setEventListeners();
 
     return this._element;
+  }
+
+  getId() {
+    return this._cardId;
   }
 }

@@ -22,7 +22,11 @@ export default class UserInfo {
   }
 
   setId(id) {
-    this.id = id;
+    this._id = id;
+  }
+
+  getId() {
+    return this._id;
   }
 
 }
