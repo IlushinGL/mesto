@@ -62,15 +62,4 @@ export default class FormValidator {
     }
   }
 
-  getInputValues() {
-    const inputValues = {};
-    this._inputList.forEach(input => {
-      inputValues[input.name] = input.value;
-    });
-    return inputValues;
-  }
-
-  getSubmitButn() {
-    return this._buttonElement
-  }
 }

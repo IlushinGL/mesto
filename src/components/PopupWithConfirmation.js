@@ -4,6 +4,7 @@ export default class PopupWithConfirmation extends Popup {
   constructor(popupSelector, handleFormSubmit) {
     super(popupSelector);
     this._form = this._container.querySelector('form');
+    this._butn = this._form.querySelector('button');
     this._handleFormSubmit = handleFormSubmit;
     this._data = null;
   }
@@ -18,6 +19,10 @@ export default class PopupWithConfirmation extends Popup {
 
   getForm() {
     return this._form;
+  }
+
+  setButtonСaption(title) {
+    this._butn.textContent = title;
   }
 
   setEventListeners() {

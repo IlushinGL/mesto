@@ -39,9 +39,6 @@ const popupCardOfPlace = new PopupWithImage(popupCardOfPlaceSelector);
 const popupDeleteForm = new PopupWithConfirmation(
   popupDeleteFormSelector,
   handleDeleteFormSubmit);
-const validatorDeleteForm = new FormValidator(
-  validateFormConfigObj,
-  popupDeleteForm);
 
 const popupNewPlaceForm = new PopupWithForm(
   popupNewPlaceFormSelector,
@@ -63,11 +60,6 @@ const popupUserAvatarForm = new PopupWithForm(
 const validatorUserAvatarForm = new FormValidator(
   validateFormConfigObj,
   popupUserAvatarForm);
-
-const butnProfileSubmit = validatorUserForm.getSubmitButn();
-const butnNewPlaceSubmit = validatorPlaceForm.getSubmitButn();
-const butnAvatarSubmit = validatorUserAvatarForm.getSubmitButn();
-const butnDeleteSubmit = validatorDeleteForm.getSubmitButn();
 
 profileAvatar.addEventListener('click', handleAvatarClick);
 profileEditButton.addEventListener('click', handleClickProfileEditBtn);
@@ -133,18 +125,18 @@ function handleCardDelete(card) {
 }
 function handleDeleteFormSubmit(evt) {
   evt.preventDefault();
-  butnDeleteSubmit.textContent = 'Удаление...'; // кнопка из валидатора
-  const card = popupDeleteForm.getData(); // инстанс из публичного метода
+  popupDeleteForm.setButtonСaption('Удаление...');
+  const card = popupDeleteForm.getData();
   api.deleteCard(card.getId())
   .then(() => {
-    card.removeCard(); // удаляем изображение
+    card.removeCard();
     popupDeleteForm.close();
   })
   .catch((err) => {
     console.log(err);
   })
   .finally(() => {
-    butnDeleteSubmit.textContent = 'Да';
+    popupDeleteForm.setButtonСaption('Да');
   })
 }
 
@@ -170,10 +162,9 @@ function handleAvatarClick() {
   validatorUserAvatarForm.toggleButtonState();
   popupUserAvatarForm.open();
 }
-function handleUserAvatarFormSubmit(evt) {
+function handleUserAvatarFormSubmit(evt, data) {
   evt.preventDefault();
-  butnAvatarSubmit.textContent = 'Сохранение...';
-  const data = validatorUserForm.getInputValues();
+  popupUserAvatarForm.setButtonСaption('Сохранение...');
   const inData = data[inputsUserAvatarFormFields.src]
   api.setUserAvatar(inData)
   .then((outData) => {
@@ -184,7 +175,7 @@ function handleUserAvatarFormSubmit(evt) {
     console.log(err);
   })
   .finally(() => {
-    butnAvatarSubmit.textContent = 'Сохранить';
+    popupUserAvatarForm.setButtonСaption('Сохранить');
   })
 }
 
@@ -197,10 +188,9 @@ function handleClickProfileEditBtn() {
   validatorUserForm.toggleButtonState();
   popupEditUserForm.open();
 }
-function handleEditUserFormSubmit(evt) {
+function handleEditUserFormSubmit(evt, data) {
   evt.preventDefault();
-  butnProfileSubmit.textContent = 'Сохранение...';
-  const data = validatorUserForm.getInputValues();
+  popupEditUserForm.setButtonСaption('Сохранение...');
   const inData = {
     name: data[inputsUserFormFields.name],
     about: data[inputsUserFormFields.about],
@@ -215,7 +205,7 @@ function handleEditUserFormSubmit(evt) {
     console.log(err);
   })
   .finally(() => {
-    butnProfileSubmit.textContent = 'Сохранить';
+    popupEditUserForm.setButtonСaption('Сохранить');
   })
 }
 
@@ -225,10 +215,9 @@ function handleClickPlaceAddBtn() {
   validatorPlaceForm.toggleButtonState();
   popupNewPlaceForm.open();
 }
-function handleNewPlaceFormSubmit(evt) {
+function handleNewPlaceFormSubmit(evt, data) {
   evt.preventDefault();
-  butnNewPlaceSubmit.textContent = 'Добавление...';
-  const data = validatorPlaceForm.getInputValues();
+  popupNewPlaceForm.setButtonСaption('Добавление...');
   const inData = {
     link: data[inputsPlaceFormFields.src],
     name: data[inputsPlaceFormFields.title],
@@ -243,6 +232,6 @@ function handleNewPlaceFormSubmit(evt) {
     console.log(err);
   })
   .finally(() => {
-    butnNewPlaceSubmit.textContent = 'Создать'
+    popupNewPlaceForm.setButtonСaption('Создать');
   })
 }
