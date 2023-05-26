@@ -21,7 +21,7 @@ export default class PopupWithConfirmation extends Popup {
     return this._form;
   }
 
-  setButtonСaption(title) {
+  setButtonCaption(title) {
     this._butn.textContent = title;
   }
 

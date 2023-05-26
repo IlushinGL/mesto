@@ -22,7 +22,7 @@ export default class PopupWithForm extends Popup {
     return inputValues;
   }
 
-  setButtonСaption(title) {
+  setButtonCaption(title) {
     this._butn.textContent = title;
   }
 

@@ -125,7 +125,7 @@ function handleCardDelete(card) {
 }
 function handleDeleteFormSubmit(evt) {
   evt.preventDefault();
-  popupDeleteForm.setButtonСaption('Удаление...');
+  popupDeleteForm.setButtonCaption('Удаление...');
   const card = popupDeleteForm.getData();
   api.deleteCard(card.getId())
   .then(() => {
@@ -136,7 +136,7 @@ function handleDeleteFormSubmit(evt) {
     console.log(err);
   })
   .finally(() => {
-    popupDeleteForm.setButtonСaption('Да');
+    popupDeleteForm.setButtonCaption('Да');
   })
 }
 
@@ -164,7 +164,7 @@ function handleAvatarClick() {
 }
 function handleUserAvatarFormSubmit(evt, data) {
   evt.preventDefault();
-  popupUserAvatarForm.setButtonСaption('Сохранение...');
+  popupUserAvatarForm.setButtonCaption('Сохранение...');
   const inData = data[inputsUserAvatarFormFields.src]
   api.setUserAvatar(inData)
   .then((outData) => {
@@ -175,7 +175,7 @@ function handleUserAvatarFormSubmit(evt, data) {
     console.log(err);
   })
   .finally(() => {
-    popupUserAvatarForm.setButtonСaption('Сохранить');
+    popupUserAvatarForm.setButtonCaption('Сохранить');
   })
 }
 
@@ -190,7 +190,7 @@ function handleClickProfileEditBtn() {
 }
 function handleEditUserFormSubmit(evt, data) {
   evt.preventDefault();
-  popupEditUserForm.setButtonСaption('Сохранение...');
+  popupEditUserForm.setButtonCaption('Сохранение...');
   const inData = {
     name: data[inputsUserFormFields.name],
     about: data[inputsUserFormFields.about],
@@ -205,7 +205,7 @@ function handleEditUserFormSubmit(evt, data) {
     console.log(err);
   })
   .finally(() => {
-    popupEditUserForm.setButtonСaption('Сохранить');
+    popupEditUserForm.setButtonCaption('Сохранить');
   })
 }
 
@@ -217,7 +217,7 @@ function handleClickPlaceAddBtn() {
 }
 function handleNewPlaceFormSubmit(evt, data) {
   evt.preventDefault();
-  popupNewPlaceForm.setButtonСaption('Добавление...');
+  popupNewPlaceForm.setButtonCaption('Добавление...');
   const inData = {
     link: data[inputsPlaceFormFields.src],
     name: data[inputsPlaceFormFields.title],
@@ -232,6 +232,6 @@ function handleNewPlaceFormSubmit(evt, data) {
     console.log(err);
   })
   .finally(() => {
-    popupNewPlaceForm.setButtonСaption('Создать');
+    popupNewPlaceForm.setButtonCaption('Создать');
   })
 }
